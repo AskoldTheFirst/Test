@@ -1,4 +1,4 @@
-export interface Technology {
+export interface TechnologyDto {
     name: string;
     amount: number;
     duration: number;

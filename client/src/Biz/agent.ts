@@ -32,8 +32,9 @@ const requests = {
 }
 
 const App = {
-    initState: () => requests.get('App/InitState'),
-    technologies: () => requests.get('App/Technologies')
+    initState: () => requests.get(`App/InitState`),
+    technologies: () => requests.get(`App/Technologies`),
+    tops: (amount: number) => requests.get(`statistics/tops?topAmount=${amount}`)
 }
 
 const agent = {

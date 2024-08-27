@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import agent from "../Biz/agent";
-import { Technology } from "../Biz/DTOs/Technology";
+import { TechnologyDto } from "../Biz/DTOs/TechnologyDto";
 
 export interface TechState {
-    technologies: Technology[];
+    technologies: TechnologyDto[];
 }
 
 export const initialTechState: TechState = {
-    technologies: new Array<Technology>(),
+    technologies: new Array<TechnologyDto>()
 }
 
-export const getTechnologiesAsync = createAsyncThunk<Technology[]>(
+export const getTechnologiesAsync = createAsyncThunk<TechnologyDto[]>(
     'technology/getTechnologiesAsync',
     async (_, thunkAPI) => {
         try {
@@ -29,7 +29,7 @@ export const technologySlice = createSlice({
     initialState: initialTechState,
     reducers: {
         setTechnology: (state, action) => {
-            state.technologies = action.payload
+            state.technologies = action.payload;
         }
     },
     extraReducers: (builder => {

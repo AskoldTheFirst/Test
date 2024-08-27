@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TestDbContext>(opt => {
+builder.Services.AddDbContext<TestDbContext>(opt =>
+{
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
@@ -23,8 +24,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(opt => {
-    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(new [] {"http://localhost:3000", "http://127.0.0.1:3000"});
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(new[] { "http://localhost:3000", "http://127.0.0.1:3000" });
 });
 
 //app.UseHttpsRedirection();

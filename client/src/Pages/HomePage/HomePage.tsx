@@ -1,5 +1,4 @@
-import TechnologyComponent from "./TechnologyComponent";
-import StatisticsComponent from "./StatisticsPreviewComponent";
+import TechnologyComponent from "./Technology/TechnologyComp";
 import { Box } from "@mui/material";
 
 export default function HomePage() {
@@ -7,8 +6,6 @@ export default function HomePage() {
         <>
             <Box sx={{marginTop: '30px'}}>
                 <TechnologyComponent />
-                <Box sx={{marginTop: '20px'}} />
-                <StatisticsComponent />
             </Box>
         </>
     )
