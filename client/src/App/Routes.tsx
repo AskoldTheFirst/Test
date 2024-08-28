@@ -20,6 +20,7 @@ export const router = createBrowserRouter([
             {path: 'signup', element: <HomePage />},
             {path: 'signout', element: <HomePage />},
             {path: 'commenceTest/:id', element: <TestCommencePage />},
+            {path: 'test/:id', element: <TestCommencePage />},
         ]
     }
 ]);
