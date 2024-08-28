@@ -62,7 +62,7 @@ export default function TechnologyComp() {
                 {GenerateGridItemsArray(technologies)?.map((n) => (
                     <Grid item xl={3} lg={3} md={4} sm={0} xs={0}>
                         <center>
-                            <TechnologyCardComp techName={n?.name} questionsAmount={n?.amount} duration={n?.duration} isEmpty={n == null} />
+                            <TechnologyCardComp id={n?.id} techName={n?.name} questionsAmount={n?.amount} duration={n?.duration} isEmpty={n == null} />
                         </center>
                     </Grid>
                 ))}
@@ -81,7 +81,7 @@ export default function TechnologyComp() {
                         </Grid>) :
                         (<Grid item xl={3} lg={3} md={4} sm={8} xs={8}>
                             <center>
-                                <TechnologyCardComp techName={n.name} questionsAmount={n.amount} duration={n.duration} />
+                                <TechnologyCardComp id={n.id} techName={n.name} questionsAmount={n.amount} duration={n.duration} />
                             </center>
                         </Grid>
                         )

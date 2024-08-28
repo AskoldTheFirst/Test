@@ -46,6 +46,7 @@ namespace API.Controllers
             return await (from t in _ctx.Technologies
                             where t.IsActive
                             select new TechnologyDto() {
+                                Id = t.Id,
                                 Name = t.Name,
                                 Amount = t.QuestionsAmount,
                                 Duration = t.DurationInMinutes }).ToArrayAsync();

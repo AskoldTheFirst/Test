@@ -17,7 +17,7 @@ import { NavLink } from 'react-router-dom';
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const barLinks = [
-    { title: 'Home', path: '/test' },
+    { title: 'Home', path: '/home' },
     { title: 'Statistics', path: '/statistics' },
     { title: 'About', path: '/about' },
 ];

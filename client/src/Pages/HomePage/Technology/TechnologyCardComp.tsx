@@ -1,6 +1,8 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface Props {
+    id?: number
     techName?: string;
     questionsAmount?: number;
     duration?: number;
@@ -19,9 +21,11 @@ export default function TechnologyCardComp(params: Props) {
                         <Typography marginLeft={'60px'} textAlign={'left'} fontSize='8pt' fontFamily='Montserrat' color='#4e4e81'>{params.questionsAmount} questions</Typography>
                         <Typography marginLeft={'60px'} textAlign={'left'} fontSize='8pt' fontFamily='Montserrat' color='#4e4e81'>{params.duration} minutes</Typography>
                     </CardContent>
-                    <Button variant="contained" sx={{ margin: '14px', background: '#60639b' }}>
-                        Start Test
-                    </Button>
+                    <Link to={`/commenceTest/${params.id}`}>
+                        <Button variant="contained" sx={{ margin: '14px', background: '#60639b' }}>
+                            Start Test
+                        </Button>
+                    </Link>
                 </>
             )}
         </Card>
