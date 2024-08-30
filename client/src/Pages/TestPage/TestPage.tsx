@@ -6,7 +6,10 @@ export default function TestPage() {
     const { state } = useSelector((state: RootState) => state.globalState);
 
     useEffect(() => {
-        //if (state.)
+        if (state.whichTestIsRunningNow == null)
+        {
+            
+        }
     }, []);
 
     return (

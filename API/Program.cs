@@ -1,4 +1,5 @@
 using API.Database;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<TestDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddTransient<AppCacheService>();
+
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

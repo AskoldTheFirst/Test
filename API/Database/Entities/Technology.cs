@@ -15,7 +15,7 @@ namespace API.Database.Entities
 
         public int QuestionsAmount { get; set; }
 
-        public int DurationInMinutes { get; set; }
+        public int SecondsForOneAnswer { get; set; }
 
         public ICollection<Question> Questions{ get; set; }
 

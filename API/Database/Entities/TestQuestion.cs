@@ -14,6 +14,8 @@ namespace API.Database.Entities
 
         public byte? AnswerPoints { get; set; }
 
+        public DateTime? RequestDate { get; set; }
+
         public DateTime? AnswerDate { get; set; }
 
         public int TestId { get; set; }

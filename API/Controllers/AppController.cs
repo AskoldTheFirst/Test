@@ -34,7 +34,7 @@ namespace API.Controllers
                                       {
                                           Name = t.Name,
                                           Amount = t.QuestionsAmount,
-                                          Duration = t.DurationInMinutes
+                                          Duration = t.SecondsForOneAnswer
                                       }).ToArrayAsync();
 
             return dto;
@@ -49,7 +49,7 @@ namespace API.Controllers
                                 Id = t.Id,
                                 Name = t.Name,
                                 Amount = t.QuestionsAmount,
-                                Duration = t.DurationInMinutes }).ToArrayAsync();
+                                Duration = t.SecondsForOneAnswer }).ToArrayAsync();
         }
     }
 }

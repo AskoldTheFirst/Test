@@ -20,7 +20,7 @@ namespace API.Database.Migrations
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     QuestionsAmount = table.Column<int>(type: "int", nullable: false),
-                    DurationInMinutes = table.Column<int>(type: "int", nullable: false)
+                    SecondsForOneAnswer = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,6 +109,7 @@ namespace API.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AnswerNumber = table.Column<byte>(type: "tinyint", nullable: true),
                     AnswerPoints = table.Column<byte>(type: "tinyint", nullable: true),
+                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AnswerDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TestId = table.Column<int>(type: "int", nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: false)

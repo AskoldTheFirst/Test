@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Database.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    [Migration("20240822114000_InitialCreate")]
+    [Migration("20240830114331_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -77,9 +77,6 @@ namespace API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DurationInMinutes")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -89,6 +86,9 @@ namespace API.Database.Migrations
                         .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("QuestionsAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SecondsForOneAnswer")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -153,6 +153,9 @@ namespace API.Database.Migrations
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("RequestDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TestId")
                         .HasColumnType("int");

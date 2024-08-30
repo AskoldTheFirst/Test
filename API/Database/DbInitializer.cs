@@ -13,11 +13,11 @@ namespace API.Database
 
             if (!ctx.Technologies.Any())
             {
-                techArray[0] = new Technology() { Name = "Java Script", IsActive = true, DurationInMinutes = 10, QuestionsAmount = 10 };
-                techArray[1] = new Technology() { Name = "C#", IsActive = true, DurationInMinutes = 12, QuestionsAmount = 8 };
-                techArray[2] = new Technology() { Name = "C/C++", IsActive = true, DurationInMinutes = 6, QuestionsAmount = 12 };
-                techArray[3] = new Technology() { Name = "MSSQL", IsActive = true, DurationInMinutes = 15, QuestionsAmount = 10 };
-                techArray[4] = new Technology() { Name = "English", IsActive = true, DurationInMinutes = 15, QuestionsAmount = 20 };
+                techArray[0] = new Technology() { Name = "Java Script", IsActive = true, SecondsForOneAnswer = 30, QuestionsAmount = 10 };
+                techArray[1] = new Technology() { Name = "C#", IsActive = true, SecondsForOneAnswer = 40, QuestionsAmount = 8 };
+                techArray[2] = new Technology() { Name = "C/C++", IsActive = true, SecondsForOneAnswer = 20, QuestionsAmount = 12 };
+                techArray[3] = new Technology() { Name = "MSSQL", IsActive = true, SecondsForOneAnswer = 45, QuestionsAmount = 10 };
+                techArray[4] = new Technology() { Name = "English", IsActive = true, SecondsForOneAnswer = 60, QuestionsAmount = 20 };
                 
                 ctx.Technologies.AddRange(techArray);
                 shouldWeSubmit = true;
@@ -33,7 +33,7 @@ namespace API.Database
                 {
                     new Question
                     {
-                        Text = "Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Text = "1 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
                         Answer1 = "aaa",
                         Answer2 = "bbb",
                         Answer3 = "ccc",
@@ -45,7 +45,139 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Text = "2 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "3 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "4 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "5 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "6 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "7 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "8 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "9 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "10 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "11 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "12 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Answer1 = "aaa",
+                        Answer2 = "bbb",
+                        Answer3 = "ccc",
+                        Answer4 = "ddd",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "1 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
                         Answer1 = "qqq",
                         Answer2 = "rrf",
                         Answer3 = "ttt",
@@ -57,7 +189,163 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = @"Vice President Harris has fought alongside Joe Biden to deliver historic accomplishments
+                        Text = "2 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "3 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "4 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "5 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "6 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "7 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "8 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "9 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "10 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "11 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "12 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "13 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "14 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Answer1 = "qqq",
+                        Answer2 = "rrf",
+                        Answer3 = "ttt",
+                        Answer4 = "jjj",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = @"1 C/C++Vice President Harris has fought alongside Joe Biden to deliver historic accomplishments
                                     and create a better life for A 10-year-old boy died Wednesday in a drone attack
                                     targeting soldiers in Colombia, the first death of its kind in the country that has struggled to rein in guerrilla violence.",
                         Answer1 = "ccc",

@@ -11,13 +11,14 @@ export class AppGlobalStateEntity {
     public currentUser: string | null;
 }
 
-class RunningTest {
+export class RunningTest {
 
     public constructor(name: string) {
         this.name = name;
+        this.currentQuestionNumber = 0;
     }
 
-    private name: string;
+    public name: string;
 
-    private currentQuestionNumber: number;
+    public currentQuestionNumber: number;
 }
