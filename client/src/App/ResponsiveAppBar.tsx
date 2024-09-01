@@ -51,7 +51,7 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{marginBottom: '30px'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <QueryStats sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

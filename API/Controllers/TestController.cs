@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using API.Services;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Web;
 
 namespace API.Controllers
 {
@@ -30,6 +31,8 @@ namespace API.Controllers
         [HttpPost("initiate-new-test")]
         public async Task<ActionResult<int>> InitiateNewTest(string techName)
         {
+            Console.WriteLine("API-TechName: " + techName);
+            Console.WriteLine("API-TechName: " + HttpUtility.HtmlEncode(techName));
             int[] randomQuestionIds = GenerateRandomQuestionsForTest(
                 techName, out int questionAmount, out int technologyId);
 
@@ -154,7 +157,7 @@ namespace API.Controllers
                                                  Total = grp.Sum(t => (int)t.AnswerPoints)
                                              }).SingleAsync();
 
-            float finalScore = (totalPointsAndAmout.Total / (float)totalPointsAndAmout.Amount) * 100;
+            float finalScore = totalPointsAndAmout.Total / (float)totalPointsAndAmout.Amount * 100;
 
             Test currentTest = await (from t in _ctx.Tests
                                       where t.Id == testId

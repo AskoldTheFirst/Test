@@ -28,6 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function TopCardComp({ techName, topLines }: Props) {
+    let counter = 0;
     return (
         <Card sx={{ minWidth: 300, margin: '20px' }}>
             <CardContent>
@@ -45,7 +46,7 @@ export default function TopCardComp({ techName, topLines }: Props) {
                         </TableHead>
                         <TableBody>
                             {topLines.map((line) => (
-                                <StyledTableRow key={line.login}>
+                                <StyledTableRow key={++counter}>
                                     <StyledTableCell component='th'>{line.login}</StyledTableCell>
                                     <StyledTableCell scope="row">{line.score}</StyledTableCell>
                                     <StyledTableCell scope="row">{line.date}</StyledTableCell>

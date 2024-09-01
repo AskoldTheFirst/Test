@@ -21,7 +21,7 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("Tops")]
+        [HttpGet("tops")]
         public async Task<ActionResult<TopDto[]>> GetTopsAsync(int topAmount)
         {
             List<TopDto> tops = new List<TopDto>();
@@ -35,7 +35,7 @@ namespace API.Controllers
                 TopLineDto[] lines = await (from tt in _ctx.Tests
                                             join u in _ctx.Users
                                                 on tt.UserId equals u.Id
-                                            where tt.TechnologyId == t.Id
+                                            where tt.TechnologyId == t.Id && tt.FinishDate != null && tt.FinalScore != null
                                             orderby tt.FinalScore descending
                                             select new TopLineDto
                                             {

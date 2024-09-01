@@ -5,6 +5,8 @@ import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 import StatisticsPage from "../Pages/StatisticsPage/StatisticsPage";
 import HomePage from "../Pages/HomePage/HomePage";
 import TestCommencePage from "../Pages/TestPage/TestCommencePage";
+import TestPage from "../Pages/TestPage/TestPage";
+import TestResultPage from "../Pages/TestPage/TestResultPage";
 
 export const router = createBrowserRouter([
     {
@@ -19,8 +21,9 @@ export const router = createBrowserRouter([
             {path: 'signin', element: <HomePage />},
             {path: 'signup', element: <HomePage />},
             {path: 'signout', element: <HomePage />},
-            {path: 'commenceTest/:id', element: <TestCommencePage />},
-            {path: 'test/:id', element: <TestCommencePage />},
+            {path: 'commenceTest/:testId', element: <TestCommencePage />},
+            {path: 'test', element: <TestPage />},
+            {path: 'test-result', element: <TestResultPage />},
         ]
     }
 ]);

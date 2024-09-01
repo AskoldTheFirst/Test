@@ -56,11 +56,14 @@ export default function TechnologyComp() {
         return Math.floor(Math.random() * (max - min)) + min + 1;
     }
 
+    // Just for Grid's key unique property.
+    let uniqueCounter = 0;
+
     if (matchesMD) {
         return (
             <Grid container spacing={2} columns={16}>
                 {GenerateGridItemsArray(technologies)?.map((n) => (
-                    <Grid item xl={3} lg={3} md={4} sm={0} xs={0}>
+                    <Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0}>
                         <center>
                             <TechnologyCardComp id={n?.id} techName={n?.name} questionsAmount={n?.amount} duration={n?.duration} isEmpty={n == null} />
                         </center>
@@ -74,12 +77,12 @@ export default function TechnologyComp() {
             <Grid container spacing={2} columns={16}>
                 {GenerateGridItemsArray(technologies)?.map((n) => (
                     n == null ?
-                        (<Grid item xl={3} lg={3} md={4} sm={0} xs={0}>
+                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0}>
                             <center>
                                 <EmptyComp />
                             </center>
                         </Grid>) :
-                        (<Grid item xl={3} lg={3} md={4} sm={8} xs={8}>
+                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={8} xs={8}>
                             <center>
                                 <TechnologyCardComp id={n.id} techName={n.name} questionsAmount={n.amount} duration={n.duration} />
                             </center>
