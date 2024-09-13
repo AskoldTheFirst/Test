@@ -43,10 +43,10 @@ function ResponsiveAppBar() {
 
     const isAuthenticated = false
     const signLinks = isAuthenticated ? [
-        { title: 'Sign Out', path: '/signout' },
+        { title: 'Logout', path: '/logout' },
     ] : [
-        { title: 'Sign In', path: '/signin' },
-        { title: 'Sign Up', path: '/signup' },
+        { title: 'Login', path: '/login' },
+        { title: 'Register', path: '/register' },
     ];
 
 

@@ -7,6 +7,8 @@ import HomePage from "../Pages/HomePage/HomePage";
 import TestCommencePage from "../Pages/TestPage/TestCommencePage";
 import TestPage from "../Pages/TestPage/TestPage";
 import TestResultPage from "../Pages/TestPage/TestResultPage";
+import Login from "../Pages/Account/Login";
+import Register from "../Pages/Account/Register";
 
 export const router = createBrowserRouter([
     {
@@ -18,8 +20,8 @@ export const router = createBrowserRouter([
             {path: 'statistics', element: <StatisticsPage />},
             {path: 'profile', element: <ProfilePage />},
             {path: 'about', element: <AboutPage />},
-            {path: 'signin', element: <HomePage />},
-            {path: 'signup', element: <HomePage />},
+            {path: 'login', element: <Login />},
+            {path: 'register', element: <Register />},
             {path: 'signout', element: <HomePage />},
             {path: 'commenceTest/:testId', element: <TestCommencePage />},
             {path: 'test', element: <TestPage />},
