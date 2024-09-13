@@ -9,7 +9,6 @@ namespace API.Database
         {
             bool shouldWeSubmit = false;
             Technology[] techArray = new Technology[5];
-            User testUser1 = null;
 
             if (!ctx.Technologies.Any())
             {
@@ -362,26 +361,6 @@ namespace API.Database
                 shouldWeSubmit = true;
             }
 
-            if (!ctx.Users.Any())
-            {
-                testUser1 = new User
-                {
-                    IsActive = true,
-                    Email = "test@test.com",
-                    Passsword = "11",
-                    Login = "TestUser",
-                    LastLogin = DateTime.Now,
-                    Registered = DateTime.Now.AddDays(-20)
-                };
-
-                ctx.Users.Add(testUser1);
-                shouldWeSubmit = true;
-            }
-            else
-            {
-                testUser1 = ctx.Users.Take(1).Single();
-            }
-
             if (!ctx.Tests.Any())
             {
                 List<Test> tests = new List<Test>();
@@ -391,8 +370,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-234),
                     StartDate = DateTime.Now.AddHours(-234),
                     Technology = techArray[0],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -400,8 +378,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-101),
                     StartDate = DateTime.Now.AddHours(-101),
                     Technology = techArray[0],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -409,8 +386,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-76),
                     StartDate = DateTime.Now.AddHours(-76),
                     Technology = techArray[0],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -418,8 +394,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-34),
                     StartDate = DateTime.Now.AddHours(-34),
                     Technology = techArray[0],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -427,8 +402,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-2004),
                     StartDate = DateTime.Now.AddHours(-2004),
                     Technology = techArray[1],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -436,8 +410,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-349),
                     StartDate = DateTime.Now.AddHours(-349),
                     Technology = techArray[1],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -445,8 +418,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-16),
                     StartDate = DateTime.Now.AddHours(-16),
                     Technology = techArray[2],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -454,8 +426,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-700),
                     StartDate = DateTime.Now.AddHours(-700),
                     Technology = techArray[2],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -463,8 +434,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-435),
                     StartDate = DateTime.Now.AddHours(-435),
                     Technology = techArray[2],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -472,8 +442,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-555),
                     StartDate = DateTime.Now.AddHours(-555),
                     Technology = techArray[2],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -481,8 +450,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-198),
                     StartDate = DateTime.Now.AddHours(-198),
                     Technology = techArray[2],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -490,8 +458,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -499,8 +466,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -508,8 +474,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -517,8 +482,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -526,8 +490,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -535,8 +498,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -544,8 +506,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -553,8 +514,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -562,8 +522,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -571,8 +530,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -580,8 +538,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 tests.Add(new Test{
@@ -589,8 +546,7 @@ namespace API.Database
                     FinishDate = DateTime.Now.AddHours(-56),
                     StartDate = DateTime.Now.AddHours(-56),
                     Technology = techArray[4],
-                    User = testUser1,
-                    UserId = testUser1.Id
+                    Username = "testUser"
                 });
 
                 ctx.Tests.AddRange(tests);

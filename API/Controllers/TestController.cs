@@ -45,7 +45,7 @@ namespace API.Controllers
                 {
                     TechnologyId = technologyId,
                     StartDate = DateTime.Now,
-                    UserId = 1
+                    Username = "testUser"
                 };
 
                 _ctx.Tests.Add(newTest);

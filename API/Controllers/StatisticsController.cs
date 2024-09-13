@@ -33,13 +33,11 @@ namespace API.Controllers
             foreach (var t in nameIdArray)
             {
                 TopLineDto[] lines = await (from tt in _ctx.Tests
-                                            join u in _ctx.Users
-                                                on tt.UserId equals u.Id
                                             where tt.TechnologyId == t.Id && tt.FinishDate != null && tt.FinalScore != null
                                             orderby tt.FinalScore descending
                                             select new TopLineDto
                                             {
-                                                Login = u.Login,
+                                                Login = tt.Username,
                                                 Date = tt.FinishDate.Value.ToString("yyyy/MM/dd hh:mm"),
                                                 Score = tt.FinalScore.Value
                                             }).Take(topAmount).ToArrayAsync();
@@ -58,15 +56,13 @@ namespace API.Controllers
         public async Task<ActionResult<TopDto>> GetTopByTechnologyAsync(string technologyName, int topAmount)
         {
             TopLineDto[] lines = await (from tt in _ctx.Tests
-                                        join u in _ctx.Users
-                                            on tt.UserId equals u.Id
                                         join t in _ctx.Technologies
                                            on tt.TechnologyId equals t.Id
                                         where t.Name == technologyName
                                         orderby tt.FinalScore descending
                                         select new TopLineDto
                                         {
-                                            Login = u.Login,
+                                            Login = tt.Username,
                                             Date = tt.FinishDate.Value.ToString("yyyy/MM/dd hh:mm"),
                                             Score = tt.FinalScore.Value
                                         }).Take(topAmount).ToArrayAsync();
