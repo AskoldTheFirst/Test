@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Database;
 using API.Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,14 @@ namespace API.Controllers
             
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<Question>>> GetQuestions()
         {
             return await _ctx.Questions.ToListAsync();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
         {

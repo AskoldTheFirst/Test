@@ -13,8 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { QueryStats } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
+import { useAppSelector } from './configureStore';
+import SignedInMenu from './SignedInMenu';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 const barLinks = [
     { title: 'Home', path: '/home' },
@@ -23,6 +25,7 @@ const barLinks = [
 ];
 
 function ResponsiveAppBar() {
+    let { user } = useAppSelector(state => state.account);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -41,10 +44,7 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
-    const isAuthenticated = false
-    const signLinks = isAuthenticated ? [
-        { title: 'Logout', path: '/logout' },
-    ] : [
+    const signLinks = [
         { title: 'Login', path: '/login' },
         { title: 'Register', path: '/register' },
     ];
@@ -59,7 +59,7 @@ function ResponsiveAppBar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -143,7 +143,7 @@ function ResponsiveAppBar() {
 
                     <Box sx={{ flexGrow: 0 }} display={'flex'}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }} disabled={user == null}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ width: 32, height: 32 }} />
                             </IconButton>
                         </Tooltip>
@@ -170,18 +170,19 @@ function ResponsiveAppBar() {
                             ))}
                         </Menu>
 
-                        {signLinks.map(({ title, path }) => (
-                            <Button
-                                component={NavLink}
-                                to={path}
-                                key={path}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 1, color: 'white', display: 'block', fontSize: 11 }}
-                            >
-                                {title}
-                            </Button>
-                        ))}
-
+                        {user ? (<SignedInMenu />) : (
+                            signLinks.map(({ title, path }) => (
+                                <Button
+                                    component={NavLink}
+                                    to={path}
+                                    key={path}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 1, color: 'white', display: 'block', fontSize: 12 }}
+                                >
+                                    {title}
+                                </Button>
+                            ))
+                        )}
                     </Box>
                 </Toolbar>
             </Container>

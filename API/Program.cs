@@ -50,10 +50,12 @@ builder.Services.AddDbContext<TestDbContext>(opt =>
 builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>(opt =>
     {
-        opt.Password.RequireUppercase = false;
-        opt.Password.RequiredLength = 2;
-        opt.Password.RequireLowercase = false;
+        opt.Password.RequireUppercase = true;
+        opt.Password.RequiredLength = 6;
+        opt.Password.RequireLowercase = true;
         opt.User.RequireUniqueEmail = true;
+        opt.Password.RequireDigit = true;
+        opt.Password.RequireNonAlphanumeric = true;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TestDbContext>();

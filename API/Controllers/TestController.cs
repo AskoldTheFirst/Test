@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using API.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -28,6 +29,7 @@ namespace API.Controllers
             _cache = cacheService;
         }
 
+        [Authorize]
         [HttpPost("initiate-new-test")]
         public async Task<ActionResult<int>> InitiateNewTest(string techName)
         {
@@ -68,13 +70,14 @@ namespace API.Controllers
                 await transaction.CommitAsync();
 
                 return newTest.Id;
-            }
+             }
             catch (Exception)
             {
                 throw;
             }
         }
 
+        [Authorize]
         [HttpPost("answer")]
         public async Task<ActionResult> Answer(int testId, int questionId, byte answerNumber)
         {
@@ -95,6 +98,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet("next-question")]
         public async Task<ActionResult<QuestionDto>> NextQuestion(int testId)
         {
@@ -133,6 +137,7 @@ namespace API.Controllers
             return nextQuestion;
         }
 
+        [Authorize]
         [HttpGet("test-result")]
         public async Task<ActionResult<TestResultDto>> TestResult(int testId)
         {
@@ -145,6 +150,7 @@ namespace API.Controllers
                           }).SingleAsync();
         }
 
+        [Authorize]
         [HttpPut("complete-test")]
         public async Task<ActionResult<TestResultDto>> CompleteTestAndRetrieveResult(int testId)
         {
