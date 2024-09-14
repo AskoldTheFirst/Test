@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "./App";
 import AboutPage from "../Pages/AboutPage/AboutPage";
 import ProfilePage from "../Pages/ProfilePage/ProfilePage";
@@ -9,12 +9,21 @@ import TestPage from "../Pages/TestPage/TestPage";
 import TestResultPage from "../Pages/TestPage/TestResultPage";
 import Login from "../Pages/Account/Login";
 import Register from "../Pages/Account/Register";
+import NotFound from "../Pages/Errors/NotFound";
+import ServerError from "../Pages/Errors/ServerError";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
+            {element: <RequireAuth />, children: [
+                {path: 'commenceTest/:testId', element: <TestCommencePage />},
+                {path: 'test', element: <TestPage />},
+                {path: 'test-result', element: <TestResultPage />},
+                {path: 'profile', element: <ProfilePage />},
+            ]},
             {path: '', element: <HomePage />},
             {path: 'home', element: <HomePage />},
             {path: 'statistics', element: <StatisticsPage />},
@@ -26,6 +35,9 @@ export const router = createBrowserRouter([
             {path: 'commenceTest/:testId', element: <TestCommencePage />},
             {path: 'test', element: <TestPage />},
             {path: 'test-result', element: <TestResultPage />},
+            {path: 'server-error', element: <ServerError />},
+            {path: 'not-found', element: <NotFound />},
+            {path: '*', element: <Navigate replace to='not-found' />},
         ]
     }
 ]);

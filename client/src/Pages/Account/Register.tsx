@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import MuiCard from '@mui/material/Card';
 import agent from "../../Biz/agent";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Login() {
     agent.Account.register(data).then((data) => {
       console.log("REG: " + data);
       setValidationErrors([]);
+      toast.success('Registration successful - you can now login.');
       navigate('/login');
     })
       .catch(error => handleApiErrors(error));
