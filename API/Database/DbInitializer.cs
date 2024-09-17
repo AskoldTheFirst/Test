@@ -30,25 +30,23 @@ namespace API.Database
             {
                 var questions = new List<Question>()
                 {
-                    new Question
-                    {
-                        Text = "1 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                    new() {
+                        Text = "Which of the following is not a JavaScript data type?",
+                        Answer1 = "bigint",
+                        Answer2 = "number",
+                        Answer3 = "float",
+                        Answer4 = "symbol",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
-                    new Question
-                    {
-                        Text = "2 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
+                    new() {
+                        Text = "Which of the following statements is not true?",
+                        Answer1 = "A variable can be used before it has been declared.",
+                        Answer2 = "Variables defined with let and const are hoisted to the top of the block without initialization and can be used in run-time there.",
+                        Answer3 = "Hoisting in JavaScript is the default behavior of moving all declarations to the top of the current scope.",
+                        Answer4 = "JavaScript only hoists declarations, not initializations.",
                         CorrectAnswerNumber = 2,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]

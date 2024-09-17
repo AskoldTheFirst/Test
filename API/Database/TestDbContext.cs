@@ -61,8 +61,6 @@ namespace API.Database
 
         public DbSet<Technology> Technologies { get; set; }
 
-        //public DbSet<User> Users { get; set; }
-
         public DbSet<Test> Tests { get; set; }
 
         public DbSet<TestQuestion> TestQuestions { get; set; }

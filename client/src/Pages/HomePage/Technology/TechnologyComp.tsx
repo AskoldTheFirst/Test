@@ -30,11 +30,11 @@ export default function TechnologyComp() {
 
         let currentAmount = 0;
         let currentButtonsAmount = 0;
-        const randBount = matchesMD ? 2 : 3;
+        const randBound = matchesMD ? 2 : 3;
         const lineCellsAmount = matchesMD ? 4 : 5
 
         do {
-            let amountOfEmptyElements = getRndInteger(0, randBount)
+            let amountOfEmptyElements = getRndInteger(0, randBound)
             console.log('### ' + amountOfEmptyElements);
             currentAmount += amountOfEmptyElements;
             for (; amountOfEmptyElements > 0; --amountOfEmptyElements) {

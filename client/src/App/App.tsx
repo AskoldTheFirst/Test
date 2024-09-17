@@ -1,4 +1,4 @@
-import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import { useEffect } from "react";
