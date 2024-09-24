@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using API.Database;
 using API.DTOs;
 using API.Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -68,6 +69,7 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurentUser()
         {

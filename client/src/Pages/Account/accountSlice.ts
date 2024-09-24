@@ -19,6 +19,7 @@ export const signInUser = createAsyncThunk<UserDto, FieldValues>(
             localStorage.setItem('user', JSON.stringify(userDto));
             return userDto;
         } catch (error: any) {
+            localStorage.removeItem('user');
             return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
@@ -33,6 +34,7 @@ export const fetchCurrentUser = createAsyncThunk<UserDto>(
             localStorage.setItem('user', JSON.stringify(userDto));
             return userDto;
         } catch (error: any) {
+            localStorage.removeItem('user');
             return thunkAPI.rejectWithValue({ error: error.data })
         }
     },

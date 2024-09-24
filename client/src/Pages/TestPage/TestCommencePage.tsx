@@ -16,7 +16,9 @@ export default function TestCommencePage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setCurrentTechnology(figureOutTechnology(testId, technologies));
+        if (testId !== undefined && technologies.length > 0)
+            //console.log('id: ' + testId + ', tech length: ' + technologies.length);
+            setCurrentTechnology(figureOutTechnology(testId, technologies));
     }, [testId, technologies]);
 
     function figureOutTechnology(idParam: string | undefined, technologies: TechnologyDto[]) {
@@ -49,7 +51,7 @@ export default function TestCommencePage() {
     return (
         <center style={{ marginTop: '150px' }}>
             {
-                currentTechnology != undefined ?
+                currentTechnology !== undefined ?
                     <>
                         <Typography fontSize={22} variant="h6">You are about to start {currentTechnology.name} test.</Typography>
                         <br />
