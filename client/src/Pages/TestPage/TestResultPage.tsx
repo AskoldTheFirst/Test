@@ -7,6 +7,7 @@ import { RootState } from "@reduxjs/toolkit/query";
 
 export default function TestResultPage() {
     const [result, setResult] = useState<TestResultDto>();
+    // TODO: How to be with these warnings?
     const { state } = useSelector((state: RootState) => state.globalState);
 
     useEffect(() => {

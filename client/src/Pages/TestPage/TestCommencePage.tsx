@@ -11,6 +11,7 @@ import { setGlobalState } from "../../App/globalStateSlice";
 export default function TestCommencePage() {
     const dispatch = useDispatch<AppDispatch>();
     const { testId } = useParams<string>();
+    // TODO: How to be with these warnings?
     const { technologies } = useSelector((state: RootState) => state.tech);
     const [currentTechnology, setCurrentTechnology] = useState<TechnologyDto>();
     const navigate = useNavigate();

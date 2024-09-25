@@ -1,18 +1,18 @@
-import { Alert, AlertTitle, Box, FormControl, FormLabel, List, ListItem, ListItemText, Stack, TextField, Typography } from "@mui/material";
+import { Alert, AlertTitle, Box, FormControl, FormLabel, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { FieldValues, useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import MuiCard from '@mui/material/Card';
 import { signInUser } from './accountSlice';
-import { useAppDispatch, useAppSelector } from "../../App/configureStore";
+import { useAppDispatch } from "../../App/configureStore";
 import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
   const dispatch = useAppDispatch();
-  let { user } = useAppSelector(state => state.account);
+  //let { user } = useAppSelector(state => state.account);
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm({
     mode: 'onSubmit'
   });

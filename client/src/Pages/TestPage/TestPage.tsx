@@ -11,6 +11,7 @@ export default function TestPage() {
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(1);
     const [answer, setAnswer] = useState<number>(0);
     const navigate = useNavigate();
+    // TODO: How to be with these warnings?
     const { state } = useSelector((state: RootState) => state.globalState);
 
     useEffect(() => {

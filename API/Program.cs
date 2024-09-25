@@ -43,9 +43,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+string connectionString = null;
+#if DEBUG
+    connectionString = builder.Configuration.GetConnectionString("DevelopmentDbConnection");
+#else
+    connectionString = builder.Configuration.GetConnectionString("ProductionDbConnection");
+#endif
+
 builder.Services.AddDbContext<TestDbContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(connectionString);
 });
 
 builder.Services.AddCors();
@@ -99,10 +106,11 @@ app.UseCors(opt =>
     opt.AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
-        .WithOrigins(new[] {
+        .WithOrigins([
             "http://localhost:3004",
-            "http://127.0.0.1:3004"
-        });
+            "http://127.0.0.1:3004",
+            "http://askold-001-site3.atempurl.com"
+        ]);
 });
 
 app.UseHttpsRedirection();

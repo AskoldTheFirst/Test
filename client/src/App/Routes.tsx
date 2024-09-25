@@ -11,7 +11,7 @@ import Login from "../Pages/Account/Login";
 import Register from "../Pages/Account/Register";
 import NotFound from "../Pages/Errors/NotFound";
 import ServerError from "../Pages/Errors/ServerError";
-import RequireAuth from "./RequireAuth";
+//import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
     {
