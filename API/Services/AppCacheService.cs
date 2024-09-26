@@ -41,7 +41,7 @@ namespace API.Services
             return ids;
         }
 
-        public Technology[] GetEntiryTechnology()
+        public Technology[] GetTechnologies()
         {
             string key = $"technologyDbTable";
             Technology[] technologies;
@@ -54,6 +54,26 @@ namespace API.Services
             }
 
             return technologies;
+        }
+
+        public Technology GetTechnologyByName(string name)
+        {
+            Technology[] technologies = GetTechnologies();
+            for(int i = 0 ; i < technologies.Length; ++i)
+                if (String.Compare(technologies[i].Name, name, true) == 0)
+                    return technologies[i];
+            
+            return null;
+        }
+
+        public Technology GetTechnologyById(int id)
+        {
+            Technology[] technologies = GetTechnologies();
+            for(int i = 0 ; i < technologies.Length; ++i)
+                if (technologies[i].Id == id)
+                    return technologies[i];
+            
+            return null;
         }
     }
 }

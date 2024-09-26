@@ -1,38 +1,46 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
-import { QuestionDto } from "../../Biz/DTOs/QuestionDto";
 import agent from "../../Biz/agent";
-import { useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../App/configureStore";
+import { incrementQuestionNumber, nextQuestion, nextQuestionState } from "./testSlice";
 
 export default function TestPage() {
-    const [currentQuestion, setCurrentQuestion] = useState<QuestionDto | undefined>();
-    const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(1);
+    const dispatch = useDispatch<AppDispatch>();
     const [answer, setAnswer] = useState<number>(0);
+    const [flag, setFlag] = useState<boolean>(true);
     const navigate = useNavigate();
-    // TODO: How to be with these warnings?
-    const { state } = useSelector((state: RootState) => state.globalState);
+
+    const { test } = useSelector((state: RootState) => state.test);
 
     useEffect(() => {
-        console.log(state);
-        if (currentQuestionNumber == state.currentTest.amount) {
-            agent.Test.complete(state.testId)
-                .then(() => navigate(`/test-result`));
+        if (test === null) {
+            const testId = localStorage.getItem('testId');
+            dispatch(nextQuestionState(testId === null ? null : parseInt(testId)));
         }
         else {
-            agent.Test.nextQuestion(state.testId)
-                .then(q => setCurrentQuestion(q));
+            dispatch(nextQuestion(test.testId));
         }
-    }, [currentQuestionNumber]);
+    }, [flag]);
 
-    if (currentQuestion == undefined)
+    if (test === null || test.question === null)
         return <></>;
 
-    function nextHandler() {
-        if (answer != 0) {
-            agent.Test.answer(state.testId, currentQuestion?.questionId!, answer)
-            setCurrentQuestionNumber(currentQuestionNumber + 1);
+    async function nextHandler() {
+        if (test !== null) {
+            await agent.Test.answer(test.testId, test.question?.questionId!, answer)
+                .then(async () => {
+                    if (test.questionNumber === test.totalAmount) {
+                        await agent.Test.complete(test.testId)
+                            .then(() => navigate('/test-result'));
+
+                    }
+                    else {
+                        dispatch(incrementQuestionNumber());
+                        setFlag(!flag);
+                    }
+                });
         }
     }
 
@@ -42,9 +50,9 @@ export default function TestPage() {
 
     return (
         <>
-            <Typography fontSize={16} variant="h6">Question {currentQuestionNumber} of {state.currentTest.amount}</Typography>
+            <Typography fontSize={16} variant="h6">Question {test.questionNumber} of {test.totalAmount}</Typography>
             <br />
-            <Typography fontSize={20} variant="h6">{currentQuestion.text}</Typography>
+            <Typography fontSize={20} variant="h6">{test.question.text}</Typography>
             <br />
 
             <FormControl>
@@ -55,10 +63,10 @@ export default function TestPage() {
                     name="radio-buttons-group"
                     onChange={answerChangeHandler}
                 >
-                    <FormControlLabel sx={{marginTop: '6px'}} value="1" control={<Radio />} label={currentQuestion.answer1} />
-                    <FormControlLabel value="2" control={<Radio />} label={currentQuestion.answer2} />
-                    <FormControlLabel value="3" control={<Radio />} label={currentQuestion.answer3} />
-                    <FormControlLabel value="4" control={<Radio />} label={currentQuestion.answer4} />
+                    <FormControlLabel sx={{ marginTop: '6px' }} value="1" control={<Radio />} label={test.question.answer1} />
+                    <FormControlLabel value="2" control={<Radio />} label={test.question.answer2} />
+                    <FormControlLabel value="3" control={<Radio />} label={test.question.answer3} />
+                    <FormControlLabel value="4" control={<Radio />} label={test.question.answer4} />
                 </RadioGroup>
             </FormControl>
             <hr />

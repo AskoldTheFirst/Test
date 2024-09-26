@@ -10,5 +10,7 @@ namespace API.DTOs
         public float Score { get; set; }
 
         public int TimeSpentInSeconds { get; set; }
+
+        public int QuestionsAmount { get; set; }
     }
 }

@@ -1,52 +1,43 @@
 import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";
 import { TechnologyDto } from "../../Biz/DTOs/TechnologyDto";
-import { AppDispatch } from "./configureStore";
-import agent from "../../Biz/agent";
-import { setGlobalState } from "../../App/globalStateSlice";
+import { AppDispatch, RootState } from "../../App/configureStore";
+import { initiateTest } from "./testSlice";
 
 export default function TestCommencePage() {
     const dispatch = useDispatch<AppDispatch>();
     const { testId } = useParams<string>();
-    // TODO: How to be with these warnings?
     const { technologies } = useSelector((state: RootState) => state.tech);
     const [currentTechnology, setCurrentTechnology] = useState<TechnologyDto>();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (testId !== undefined && technologies.length > 0)
-            //console.log('id: ' + testId + ', tech length: ' + technologies.length);
-            setCurrentTechnology(figureOutTechnology(testId, technologies));
-    }, [testId, technologies]);
 
-    function figureOutTechnology(idParam: string | undefined, technologies: TechnologyDto[]) {
-        if (idParam === undefined)
-            throw "technology was not found";
+        if (testId === undefined) {
+            navigate('/');
+            return;
+        }
 
-        const idNumber = parseInt(idParam);
+        if (technologies.length > 0)
+            setCurrentTechnology(figureOutTechnology(parseInt(testId), technologies));
 
+    }, [technologies]);
+
+    function figureOutTechnology(id: number, technologies: TechnologyDto[]) {
         for (let i = 0; i < technologies.length; ++i)
-            if (technologies[i].id == idNumber)
+            if (technologies[i].id === id)
                 return technologies[i];
 
         throw "technology was not found";
     }
 
     function StartHandler() {
-        if (currentTechnology == undefined)
+        if (currentTechnology === undefined)
             return;
 
-        agent.Test.initiateNewTest(encodeURIComponent(currentTechnology.name))
-            .then(testId => {
-                dispatch(setGlobalState({
-                    currentTest: currentTechnology,
-                    testId: testId
-                }));
-                navigate("/test");
-            });
+        dispatch(initiateTest(encodeURIComponent(currentTechnology.name)));
     }
 
     return (

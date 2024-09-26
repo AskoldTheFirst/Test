@@ -3,21 +3,24 @@ import agent from "../../Biz/agent";
 import { TestResultDto } from "../../Biz/DTOs/TestResultDto";
 import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
+import { RootState } from "../../App/configureStore";
 
 export default function TestResultPage() {
     const [result, setResult] = useState<TestResultDto>();
-    // TODO: How to be with these warnings?
-    const { state } = useSelector((state: RootState) => state.globalState);
+    const { test } = useSelector((state: RootState) => state.test);
 
     useEffect(() => {
-        agent.Test.result(state.testId).then(r => setResult(r));
+        if (test !== null)
+            agent.Test.result(test?.testId).then(result => setResult(result));
     }, []);
+
+    if (test === null)
+        return <></>
 
     return (
         <center>
             <Typography>Congratulate!</Typography>
-            <Typography>You have passed through the {state.currentTest.name} test</Typography>
+            <Typography>You have passed through the {test.technologyName} test</Typography>
             <Typography>with the score {result?.score}.</Typography>
         </center>
     );

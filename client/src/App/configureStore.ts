@@ -2,15 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { technologySlice } from "./technologySlice";
 import { statisticsSlice } from "./statisticsSlice";
-import { globalStateSlice } from "./globalStateSlice";
 import { accountSlice } from "../Pages/Account/accountSlice";
+import { testSlice } from "../Pages/TestPage/testSlice";
 
 export const store = configureStore({
     reducer: {
         tech: technologySlice.reducer,
         tops: statisticsSlice.reducer,
-        globalState: globalStateSlice.reducer,
-        account: accountSlice.reducer
+        account: accountSlice.reducer,
+        test: testSlice.reducer,
     }
 });
 

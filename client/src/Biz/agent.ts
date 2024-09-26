@@ -52,6 +52,7 @@ const Test = {
     initiateNewTest: (technologyName: string) => requests.post(`test/initiate-new-test?techName=${technologyName}`, {}),
     answer: (testId: number, questionId: number, answerNumber: number) => requests.post(`test/answer?testId=${testId}&questionId=${questionId}&answerNumber=${answerNumber}`, {}),
     nextQuestion: (testId: number) => requests.get(`test/next-question?testId=${testId}`),
+    nextQuestionState: (testId: number | null) => requests.get(`test/next-question-state?testId=${testId}`),
     result: (testId: number) => requests.get(`test/test-result?testId=${testId}`),
     complete: (testId: number) => requests.put(`test/complete-test?testId=${testId}`, {})
 }

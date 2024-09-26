@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export default function EmptyComp() {
-    const canvasRef = useRef(null);
+    const canvasRef = useRef<any>();
 
     useEffect(() => {
         const canvas = canvasRef.current;

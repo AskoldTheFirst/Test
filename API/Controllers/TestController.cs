@@ -13,6 +13,7 @@ using API.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Controllers
 {
@@ -21,25 +22,24 @@ namespace API.Controllers
         private readonly ILogger<AppController> _logger;
         private readonly TestDbContext _ctx;
         private readonly AppCacheService _cache;
+        private readonly UserManager<User> _userManager;
 
-        public TestController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService)
+        public TestController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService, UserManager<User> userManager)
         {
             _ctx = context;
             _logger = logger;
             _cache = cacheService;
+            _userManager = userManager;
         }
 
         [Authorize]
         [HttpPost("initiate-new-test")]
-        public async Task<ActionResult<int>> InitiateNewTest(string techName)
+        public async Task<ActionResult<InitTestResultDto>> InitiateNewTest(string techName)
         {
-            Console.WriteLine("API-TechName: " + techName);
-            Console.WriteLine("API-TechName: " + HttpUtility.HtmlEncode(techName));
+            string user = User.Identity.Name;
+
             int[] randomQuestionIds = GenerateRandomQuestionsForTest(
                 techName, out int questionAmount, out int technologyId);
-
-            IDbContextTransaction transaction =
-                await _ctx.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
             try
             {
@@ -47,14 +47,13 @@ namespace API.Controllers
                 {
                     TechnologyId = technologyId,
                     StartDate = DateTime.Now,
-                    Username = "testUser"
+                    Username = user
                 };
 
                 _ctx.Tests.Add(newTest);
                 await _ctx.SaveChangesAsync();
 
                 TestQuestion[] generatedQuestions = new TestQuestion[questionAmount];
-
                 for (int i = 0; i < questionAmount; ++i)
                 {
                     generatedQuestions[i] = new TestQuestion()
@@ -67,10 +66,15 @@ namespace API.Controllers
                 _ctx.TestQuestions.AddRange(generatedQuestions);
                 await _ctx.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+                Technology currentTechnology = _cache.GetTechnologyByName(techName);
+                InitTestResultDto result = new();
+                result.TestId = newTest.Id;
+                result.TotalAmount = currentTechnology.QuestionsAmount;
+                result.SecondsLeft = currentTechnology.SecondsForOneAnswer * 60;
+                result.TechnologyName = currentTechnology.Name;
 
-                return newTest.Id;
-             }
+                return result;
+            }
             catch (Exception)
             {
                 throw;
@@ -102,12 +106,13 @@ namespace API.Controllers
         [HttpGet("next-question")]
         public async Task<ActionResult<QuestionDto>> NextQuestion(int testId)
         {
-            IDbContextTransaction transaction =
-                await _ctx.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            string userName = User.Identity.Name;
 
             QuestionDto nextQuestion = await (from tq in _ctx.TestQuestions
                                               join q in _ctx.Questions on tq.QuestionId equals q.Id
-                                              where tq.RequestDate == null && tq.TestId == testId
+                                              join t in _ctx.Tests on tq.TestId equals t.Id
+                                              where tq.AnswerDate == null && tq.TestId == testId && t.Username == userName
+                                              orderby tq.RequestDate descending
                                               select new QuestionDto
                                               {
                                                   Text = q.Text,
@@ -120,7 +125,6 @@ namespace API.Controllers
                                                   TestQuestionId = tq.Id
                                               }).FirstOrDefaultAsync();
 
-            // This should happen when we have answerd all test questions only.
             if (nextQuestion != null)
             {
                 TestQuestion nextTestQuestion = await (from tq in _ctx.TestQuestions
@@ -132,21 +136,86 @@ namespace API.Controllers
                 await _ctx.SaveChangesAsync();
             }
 
-            await transaction.CommitAsync();
-
             return nextQuestion;
+        }
+
+        [Authorize]
+        [HttpGet("next-question-state")]
+        public async Task<ActionResult<NextQuestionStateDto>> NextQuestionState(int? testId)
+        {
+            string userName = User.Identity.Name;
+            Test currentTest = null;
+
+            if (testId.HasValue)
+            {
+                currentTest = await (from t in _ctx.Tests
+                                     where t.Username == userName && t.Id == testId && t.FinishDate == null
+                                     orderby t.StartDate descending
+                                     select t).SingleOrDefaultAsync();
+            }
+            else
+            {
+                currentTest = await (from t in _ctx.Tests
+                                     where t.Username == userName && t.FinishDate == null && (DateTime.Now - t.StartDate).TotalMinutes < 90
+                                     orderby t.StartDate descending
+                                     select t).FirstOrDefaultAsync();
+            }
+
+            int currentTestId = currentTest.Id;
+
+            QuestionDto nextQuestion = await (from tq in _ctx.TestQuestions
+                                              join q in _ctx.Questions on tq.QuestionId equals q.Id
+                                              where tq.AnswerDate == null && tq.TestId == currentTestId
+                                              orderby tq.RequestDate descending
+                                              select new QuestionDto
+                                              {
+                                                  Text = q.Text,
+                                                  Answer1 = q.Answer1,
+                                                  Answer2 = q.Answer2,
+                                                  Answer3 = q.Answer3,
+                                                  Answer4 = q.Answer4,
+                                                  QuestionId = q.Id,
+                                                  TestId = currentTestId,
+                                                  TestQuestionId = tq.Id
+                                              }).FirstOrDefaultAsync();
+
+            if (nextQuestion != null)
+            {
+                TestQuestion nextTestQuestion = await (from tq in _ctx.TestQuestions
+                                                       where tq.TestId == currentTestId && tq.QuestionId == nextQuestion.QuestionId
+                                                       select tq).SingleAsync();
+
+                nextTestQuestion.RequestDate = DateTime.Now;
+
+                await _ctx.SaveChangesAsync();
+            }
+
+            Technology testTechnology = _cache.GetTechnologyById(currentTest.TechnologyId);
+            NextQuestionStateDto nextState = new();
+            nextState.Question = nextQuestion;
+            nextState.QuestionNumber = await GetAmountOfAlreadyAnsweredQuestionsAsync(currentTestId) + 1;
+            nextState.TotalAmount = testTechnology.QuestionsAmount;
+            nextState.SecondsLeft = (int)(DateTime.Now - currentTest.StartDate).TotalSeconds;
+            nextState.TechnologyName = testTechnology.Name;
+
+            return nextState;
         }
 
         [Authorize]
         [HttpGet("test-result")]
         public async Task<ActionResult<TestResultDto>> TestResult(int testId)
         {
+            string userName = User.Identity.Name;
+
+            int amount = await GetAmountOfAlreadyAnsweredQuestionsAsync(testId);
+
             return await (from t in _ctx.Tests
-                          where t.Id == testId
+                          where t.Id == testId && t.Username == userName
                           select new TestResultDto
                           {
                               Score = (float)t.FinalScore,
-                              TimeSpentInSeconds = (int)(t.FinishDate.Value - t.StartDate).TotalSeconds
+                              TimeSpentInSeconds = (int)(t.FinishDate.Value - t.StartDate).TotalSeconds,
+                              QuestionsAmount = amount
                           }).SingleAsync();
         }
 
@@ -154,6 +223,8 @@ namespace API.Controllers
         [HttpPut("complete-test")]
         public async Task<ActionResult<TestResultDto>> CompleteTestAndRetrieveResult(int testId)
         {
+            string userName = User.Identity.Name;
+
             var totalPointsAndAmout = await (from tq in _ctx.TestQuestions
                                              where tq.TestId == testId
                                              group tq by 1 into grp
@@ -166,7 +237,7 @@ namespace API.Controllers
             float finalScore = totalPointsAndAmout.Total / (float)totalPointsAndAmout.Amount * 100;
 
             Test currentTest = await (from t in _ctx.Tests
-                                      where t.Id == testId
+                                      where t.Id == testId && t.Username == userName
                                       select t).SingleAsync();
 
             currentTest.FinalScore = finalScore;
@@ -179,7 +250,7 @@ namespace API.Controllers
 
         private int[] GenerateRandomQuestionsForTest(string techName, out int questionAmount, out int testTechnologyId)
         {
-            Technology[] allTechnologies = _cache.GetEntiryTechnology();
+            Technology[] allTechnologies = _cache.GetTechnologies();
             var amountAndId = (from t in allTechnologies
                                where string.Compare(t.Name, techName, true) == 0
                                select new { t.QuestionsAmount, t.Id }).Single();
@@ -194,6 +265,13 @@ namespace API.Controllers
                 randomQuestionIds.Add(ids[index]);
 
             return [.. randomQuestionIds];
+        }
+
+        private async Task<int> GetAmountOfAlreadyAnsweredQuestionsAsync(int testId)
+        {
+            return await (from q in _ctx.TestQuestions
+                          where q.TestId == testId && q.AnswerDate != null
+                          select q.Id).CountAsync();
         }
 
         private static int[] GenerateRandomUniqueNumbersFromZero(int to, int amountOfNumbers)
