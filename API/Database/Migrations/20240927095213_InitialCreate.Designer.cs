@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Database.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    [Migration("20240913132429_Create")]
-    partial class Create
+    [Migration("20240927095213_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,9 @@ namespace API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DurationInMinutes")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -86,9 +89,6 @@ namespace API.Database.Migrations
                         .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("QuestionsAmount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SecondsForOneAnswer")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -123,11 +123,16 @@ namespace API.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FinalScore");
+
                     b.HasIndex("TechnologyId");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("Tests");
                 });
@@ -257,6 +262,20 @@ namespace API.Database.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9467df12-0699-4fca-a18e-39af0124bbb4",
+                            Name = "Member",
+                            NormalizedName = "MEMBER"
+                        },
+                        new
+                        {
+                            Id = "322a3fb4-8078-4f6e-943d-8e91a7545a73",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

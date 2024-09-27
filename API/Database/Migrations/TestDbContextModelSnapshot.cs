@@ -74,6 +74,9 @@ namespace API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DurationInMinutes")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -83,9 +86,6 @@ namespace API.Database.Migrations
                         .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("QuestionsAmount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SecondsForOneAnswer")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -120,11 +120,16 @@ namespace API.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FinalScore");
+
                     b.HasIndex("TechnologyId");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("Tests");
                 });
@@ -258,13 +263,13 @@ namespace API.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "381a3100-8f8f-410d-ac2c-7a5a3d7c0422",
+                            Id = "9467df12-0699-4fca-a18e-39af0124bbb4",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "39f0447b-cd7e-4146-98aa-64f9a7d4a570",
+                            Id = "322a3fb4-8078-4f6e-943d-8e91a7545a73",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

@@ -12,11 +12,11 @@ namespace API.Database
 
             if (!ctx.Technologies.Any())
             {
-                techArray[0] = new Technology() { Name = "Java Script", IsActive = true, SecondsForOneAnswer = 30, QuestionsAmount = 10 };
-                techArray[1] = new Technology() { Name = "C#", IsActive = true, SecondsForOneAnswer = 40, QuestionsAmount = 8 };
-                techArray[2] = new Technology() { Name = "C/C++", IsActive = true, SecondsForOneAnswer = 20, QuestionsAmount = 12 };
-                techArray[3] = new Technology() { Name = "MSSQL", IsActive = true, SecondsForOneAnswer = 45, QuestionsAmount = 10 };
-                techArray[4] = new Technology() { Name = "English", IsActive = true, SecondsForOneAnswer = 60, QuestionsAmount = 20 };
+                techArray[0] = new Technology() { Name = "Java Script", IsActive = true, DurationInMinutes = 8, QuestionsAmount = 10 };
+                techArray[1] = new Technology() { Name = "C#", IsActive = true, DurationInMinutes = 4, QuestionsAmount = 8 };
+                techArray[2] = new Technology() { Name = "C/C++", IsActive = true, DurationInMinutes = 10, QuestionsAmount = 12 };
+                techArray[3] = new Technology() { Name = "MSSQL", IsActive = true, DurationInMinutes = 10, QuestionsAmount = 10 };
+                techArray[4] = new Technology() { Name = "English", IsActive = true, DurationInMinutes = 12, QuestionsAmount = 20 };
                 
                 ctx.Technologies.AddRange(techArray);
                 shouldWeSubmit = true;

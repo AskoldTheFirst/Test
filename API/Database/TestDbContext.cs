@@ -36,13 +36,6 @@ namespace API.Database
                 .HasPrincipalKey(e => e.Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // builder.Entity<User>()
-            //     .HasMany(e => e.Tests)
-            //     .WithOne(e => e.User)
-            //     .HasForeignKey(e => e.UserId)
-            //     .HasPrincipalKey(e => e.Id)
-            //     .OnDelete(DeleteBehavior.Restrict);
-
             builder.Entity<Technology>()
                 .HasMany(e => e.Tests)
                 .WithOne(e => e.Technology)
@@ -55,6 +48,9 @@ namespace API.Database
                     new IdentityRole { Name = "Member", NormalizedName = "MEMBER" },
                     new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
                 );
+
+            builder.Entity<Test>().HasIndex(e => e.Username);
+            builder.Entity<Test>().HasIndex(e => e.FinalScore);
         }
 
         public DbSet<Question> Questions { get; set; }

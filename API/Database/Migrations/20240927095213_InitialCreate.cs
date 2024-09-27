@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace API.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Create : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,7 +61,7 @@ namespace API.Database.Migrations
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     QuestionsAmount = table.Column<int>(type: "int", nullable: false),
-                    SecondsForOneAnswer = table.Column<int>(type: "int", nullable: false)
+                    DurationInMinutes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,7 +206,7 @@ namespace API.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FinalScore = table.Column<float>(type: "real", nullable: true),
                     TechnologyId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -250,6 +252,15 @@ namespace API.Database.Migrations
                         principalTable: "Tests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "322a3fb4-8078-4f6e-943d-8e91a7545a73", null, "Admin", "ADMIN" },
+                    { "9467df12-0699-4fca-a18e-39af0124bbb4", null, "Member", "MEMBER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -313,9 +324,19 @@ namespace API.Database.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tests_FinalScore",
+                table: "Tests",
+                column: "FinalScore");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tests_TechnologyId",
                 table: "Tests",
                 column: "TechnologyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tests_Username",
+                table: "Tests",
+                column: "Username");
         }
 
         /// <inheritdoc />

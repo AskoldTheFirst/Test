@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Database.Entities
 {
@@ -6,10 +7,7 @@ namespace API.Database.Entities
     {
         public int Id { get; set; }
 
-        // public int UserId { get; set; }
-
-        // public User User { get; set; }
-
+        [Required]
         public string Username { get; set; }
 
         public float? FinalScore { get; set; }

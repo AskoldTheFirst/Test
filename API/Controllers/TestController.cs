@@ -70,7 +70,7 @@ namespace API.Controllers
                 InitTestResultDto result = new();
                 result.TestId = newTest.Id;
                 result.TotalAmount = currentTechnology.QuestionsAmount;
-                result.SecondsLeft = currentTechnology.SecondsForOneAnswer * 60;
+                result.SecondsLeft = currentTechnology.DurationInMinutes * 60;
                 result.TechnologyName = currentTechnology.Name;
 
                 return result;
@@ -191,11 +191,12 @@ namespace API.Controllers
             }
 
             Technology testTechnology = _cache.GetTechnologyById(currentTest.TechnologyId);
+            int secondsLeft = testTechnology.DurationInMinutes * 60 - (int)(DateTime.Now - currentTest.StartDate).TotalSeconds;
             NextQuestionStateDto nextState = new();
             nextState.Question = nextQuestion;
             nextState.QuestionNumber = await GetAmountOfAlreadyAnsweredQuestionsAsync(currentTestId) + 1;
             nextState.TotalAmount = testTechnology.QuestionsAmount;
-            nextState.SecondsLeft = (int)(DateTime.Now - currentTest.StartDate).TotalSeconds;
+            nextState.SecondsLeft = secondsLeft;
             nextState.TechnologyName = testTechnology.Name;
 
             return nextState;
