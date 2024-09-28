@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using LogClient;
+using LogClient.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +86,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
+
+builder.Services.AddSingleton<LogClient.ILogger>(
+    new WebLogger("http://localhost:5009", Product.Tester, LayerType.BackEnd));
+
+builder.Services.AddSingleton<LogClient.ITracer>(
+    new WebTracer("http://localhost:5009", Product.Tester));
 
 builder.Services.AddTransient<AppCacheService>();
 builder.Services.AddMemoryCache();

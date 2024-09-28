@@ -11,12 +11,13 @@ using API.Database;
 using API.DTOs;
 using API.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
+using LogClient;
 
 namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly ILogger<AccountController> _logger;
+        private readonly ITracer _tracer;
 
         private readonly TestDbContext _ctx;
 
@@ -24,10 +25,14 @@ namespace API.Controllers
 
         private readonly TokenService _tokenService;
 
-        public AccountController(TestDbContext context, ILogger<AccountController> logger, UserManager<User> userManager, TokenService tokenService)
+        public AccountController(
+            TestDbContext context,
+            ITracer tracer,
+            UserManager<User> userManager,
+            TokenService tokenService)
         {
             _ctx = context;
-            _logger = logger;
+            _tracer = tracer;
             _userManager = userManager;
             _tokenService = tokenService;
         }
@@ -38,6 +43,8 @@ namespace API.Controllers
             var user = await _userManager.FindByNameAsync(loginDto.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Unauthorized();
+
+            await _tracer.TraceAsync("Login", loginDto.Username);
 
             return new UserDto
             {

@@ -14,22 +14,35 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using LogClient;
 
 namespace API.Controllers
 {
     public class TestController : BaseApiController
     {
-        private readonly ILogger<AppController> _logger;
+        private readonly LogClient.ILogger _logger;
+
+        private readonly ITracer _tracer;
+
         private readonly TestDbContext _ctx;
+
         private readonly AppCacheService _cache;
+
         private readonly UserManager<User> _userManager;
 
-        public TestController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService, UserManager<User> userManager)
+
+        public TestController(
+            TestDbContext context,
+            LogClient.ILogger logger,
+            AppCacheService cacheService,
+            UserManager<User> userManager,
+            ITracer tracer)
         {
             _ctx = context;
             _logger = logger;
             _cache = cacheService;
             _userManager = userManager;
+            _tracer = tracer;
         }
 
         [Authorize]
@@ -38,47 +51,45 @@ namespace API.Controllers
         {
             string user = User.Identity.Name;
 
+            long sessionId = DateTime.Now.Ticks;
+            await _tracer.TraceAsync("InitiateNewTest", user, sessionId, sessionId);
+
             int[] randomQuestionIds = GenerateRandomQuestionsForTest(
                 techName, out int questionAmount, out int technologyId);
 
-            try
+            Test newTest = new()
             {
-                Test newTest = new()
+                TechnologyId = technologyId,
+                StartDate = DateTime.Now,
+                Username = user
+            };
+
+            _ctx.Tests.Add(newTest);
+            await _ctx.SaveChangesAsync();
+
+            TestQuestion[] generatedQuestions = new TestQuestion[questionAmount];
+            for (int i = 0; i < questionAmount; ++i)
+            {
+                generatedQuestions[i] = new TestQuestion()
                 {
-                    TechnologyId = technologyId,
-                    StartDate = DateTime.Now,
-                    Username = user
+                    QuestionId = randomQuestionIds[i],
+                    TestId = newTest.Id
                 };
-
-                _ctx.Tests.Add(newTest);
-                await _ctx.SaveChangesAsync();
-
-                TestQuestion[] generatedQuestions = new TestQuestion[questionAmount];
-                for (int i = 0; i < questionAmount; ++i)
-                {
-                    generatedQuestions[i] = new TestQuestion()
-                    {
-                        QuestionId = randomQuestionIds[i],
-                        TestId = newTest.Id
-                    };
-                }
-
-                _ctx.TestQuestions.AddRange(generatedQuestions);
-                await _ctx.SaveChangesAsync();
-
-                Technology currentTechnology = _cache.GetTechnologyByName(techName);
-                InitTestResultDto result = new();
-                result.TestId = newTest.Id;
-                result.TotalAmount = currentTechnology.QuestionsAmount;
-                result.SecondsLeft = currentTechnology.DurationInMinutes * 60;
-                result.TechnologyName = currentTechnology.Name;
-
-                return result;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            _ctx.TestQuestions.AddRange(generatedQuestions);
+            await _ctx.SaveChangesAsync();
+
+            Technology currentTechnology = _cache.GetTechnologyByName(techName);
+            InitTestResultDto result = new();
+            result.TestId = newTest.Id;
+            result.TotalAmount = currentTechnology.QuestionsAmount;
+            result.SecondsLeft = currentTechnology.DurationInMinutes * 60;
+            result.TechnologyName = currentTechnology.Name;
+
+            await _tracer.TraceAsync("InitiateNewTest", user, DateTime.Now.Ticks, sessionId);
+
+            return result;
         }
 
         [Authorize]
@@ -108,6 +119,9 @@ namespace API.Controllers
         {
             string userName = User.Identity.Name;
 
+            long sessionId = DateTime.Now.Ticks;
+            await _tracer.TraceAsync("NextQuestion", userName, sessionId, sessionId);
+
             QuestionDto nextQuestion = await (from tq in _ctx.TestQuestions
                                               join q in _ctx.Questions on tq.QuestionId equals q.Id
                                               join t in _ctx.Tests on tq.TestId equals t.Id
@@ -135,6 +149,8 @@ namespace API.Controllers
 
                 await _ctx.SaveChangesAsync();
             }
+
+            await _tracer.TraceAsync("NextQuestion", userName, DateTime.Now.Ticks, sessionId);
 
             return nextQuestion;
         }

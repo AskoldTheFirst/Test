@@ -14,12 +14,12 @@ namespace API
     {
         private readonly RequestDelegate _next;
 
-        private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly LogClient.ILogger _logger;
 
         private readonly IHostEnvironment _env;
 
         public ExceptionMiddleware(RequestDelegate next,
-                                   ILogger<ExceptionMiddleware> logger,
+                                   LogClient.ILogger logger,
                                    IHostEnvironment env)
         {
             _next = next;
@@ -35,7 +35,7 @@ namespace API
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                await _logger.LogAsync("InvokeAsync", LogClient.Types.Severity.High, ex);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 500;
 
