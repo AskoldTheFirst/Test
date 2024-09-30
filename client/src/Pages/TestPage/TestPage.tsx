@@ -5,6 +5,7 @@ import agent from "../../Biz/agent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../App/configureStore";
 import { incrementQuestionNumber, nextQuestion, nextQuestionState } from "./testSlice";
+import QuestionHeaderCmp from "./QuestionHeaderCmp";
 
 export default function TestPage() {
     const dispatch = useDispatch<AppDispatch>();
@@ -32,9 +33,7 @@ export default function TestPage() {
             await agent.Test.answer(test.testId, test.question?.questionId!, answer)
                 .then(async () => {
                     if (test.questionNumber === test.totalAmount) {
-                        await agent.Test.complete(test.testId)
-                            .then(() => navigate('/test-result'));
-
+                        await completeTestAsync(test.testId);
                     }
                     else {
                         dispatch(incrementQuestionNumber());
@@ -48,9 +47,19 @@ export default function TestPage() {
         setAnswer(parseInt(ev.target.value));
     }
 
+    async function completeTestAsync(testId: number) {
+        await agent.Test.complete(testId)
+            .then(() => navigate('/test-result'));
+    }
+
     return (
         <>
-            <Typography fontSize={16} variant="h6">Question {test.questionNumber} of {test.totalAmount}</Typography>
+            <QuestionHeaderCmp
+                number={test.questionNumber}
+                total={test.totalAmount}
+                timeLeftInSeconds={test.secondsLeft}
+                completeHandler={async () => await completeTestAsync(test.testId)}
+            />
             <br />
             <Typography fontSize={20} variant="h6">{test.question.text}</Typography>
             <br />

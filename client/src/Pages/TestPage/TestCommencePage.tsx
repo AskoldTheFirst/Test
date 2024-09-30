@@ -46,10 +46,7 @@ export default function TestCommencePage() {
                 currentTechnology !== undefined ?
                     <>
                         <Typography fontSize={22} variant="h6">You are about to start {currentTechnology.name} test.</Typography>
-                        <br />
-                        <Typography fontSize={16} variant="h6">You will have to answer {currentTechnology.amount} questions.</Typography>
-                        <Typography fontSize={16} variant="h6">And you will have just {currentTechnology.duration} seconds for each question.</Typography>
-
+                        <Typography sx={{marginTop: '18px'}} fontSize={16} variant="h6">You will have to answer {currentTechnology.amount} questions for {currentTechnology.duration} minutes.</Typography>
                         <Button sx={{ marginTop: 4 }} variant="contained" disabled={currentTechnology == undefined} onClick={StartHandler}>Start</Button>
                     </>
                     :

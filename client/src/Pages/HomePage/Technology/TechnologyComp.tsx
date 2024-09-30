@@ -35,7 +35,6 @@ export default function TechnologyComp() {
 
         do {
             let amountOfEmptyElements = getRndInteger(0, randBound)
-            console.log('### ' + amountOfEmptyElements);
             currentAmount += amountOfEmptyElements;
             for (; amountOfEmptyElements > 0; --amountOfEmptyElements) {
                 array.push(null);
@@ -44,7 +43,7 @@ export default function TechnologyComp() {
             array.push(technologies[currentButtonsAmount++]);
             ++currentAmount;
         } while (currentButtonsAmount < buttonAmount)
-        
+
         while (currentAmount++ % lineCellsAmount != 0) {
             array.push(null);
         }

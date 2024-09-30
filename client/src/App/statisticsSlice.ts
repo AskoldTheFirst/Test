@@ -14,11 +14,9 @@ export const getTopsAsync = createAsyncThunk<TopDto[], number>(
     'statistics/getTopsAsync',
     async (amount, thunkAPI) => {
         try {
-            console.log("NNN5");
             return await agent.App.tops(amount);
         }
         catch (error: any) {
-            console.log("VVV5");
             return thunkAPI.rejectWithValue({ error: error.data });
         }
     }

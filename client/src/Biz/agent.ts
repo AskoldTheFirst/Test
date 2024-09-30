@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../App/configureStore";
 import { router } from "../App/Routes";
 import { toast } from "react-toastify";
+import { PageFilterParamsDto } from "./DTOs/PageFilterParamsDto";
 
 //axios.defaults.baseURL = 'http://localhost:5001/api/';
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
@@ -17,9 +18,9 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(async response => {
     return response;
-}, /*not 2xx responce range*/ (error: AxiosError) => {
+}, /*not 2xx responce range*/(error: AxiosError) => {
     const { data, status } = error.response as AxiosResponse;
-    
+
     switch (status) {
         case 400:
         case 401:
@@ -36,7 +37,7 @@ axios.interceptors.response.use(async response => {
 });
 
 const requests = {
-    get: (url: string) => axios.get(url).then(responseBody),
+    get: (url: string, params?: any) => axios.get(url, { params }).then(responseBody),
     post: (url: string, body: object) => axios.post(url, body).then(responseBody),
     put: (url: string, body: object) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
@@ -63,10 +64,15 @@ const Account = {
     currentUser: () => requests.get('account/currentUser'),
 }
 
+const Statistics = {
+    page: (filter: PageFilterParamsDto) => requests.get('statistics/result-rows', filter),
+}
+
 const agent = {
     App,
     Test,
-    Account
+    Account,
+    Statistics
 }
 
 export default agent;

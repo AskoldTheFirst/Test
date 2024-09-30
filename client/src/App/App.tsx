@@ -4,13 +4,30 @@ import ResponsiveAppBar from "./ResponsiveAppBar";
 import { useEffect } from "react";
 import { getTechnologiesAsync } from "./technologySlice";
 import { fetchCurrentUser } from "../Pages/Account/accountSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "./configureStore";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { setFilter, setIds } from "../Pages/StatisticsPage/filterSlice";
+import { Filter } from "../Biz/Entities/Filter";
+import { Helper } from "../Biz/Helper";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
+  const { technologies } = useSelector((state: RootState) => state.tech);
+
+  useEffect(() => {
+    const techIds: number[] = [];
+    technologies.forEach((t) => techIds.push(t.id));
+    const newFilter = {
+      period: 0,
+      userSearch: '',
+      techIds: Helper.ConvertArrayToString(techIds)
+    } as Filter;
+
+    dispatch(setFilter(newFilter));
+    dispatch(setIds(techIds));
+  }, [technologies]);
 
   useEffect(() => {
     dispatch(getTechnologiesAsync());
