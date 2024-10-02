@@ -1,35 +1,31 @@
 using Microsoft.EntityFrameworkCore;
 
-public interface IRepository<T> where T : class
+namespace API.UoW
 {
-    IQueryable<T> GetAll();
-
-    void Add(T entity);
-    
-    void Remove(T entity);
-}
-
-public class Repository<T> : IRepository<T> where T : class
-{
-    private readonly DbSet<T> _dbSet;
-
-    public Repository(DbSet<T> dbSet)
+    public class Repository<T> : IRepository<T> where T : class
     {
-        _dbSet = dbSet;
-    }
+        private readonly DbSet<T> _dbSet;
 
-    public IQueryable<T> GetAll()
-    {
-        return _dbSet.AsQueryable();
-    }
+        public DbSet<T> All { get { return _dbSet; } }
 
-    public void Add(T entity)
-    {
-        _dbSet.Add(entity);
-    }
+        public Repository(DbSet<T> dbSet)
+        {
+            _dbSet = dbSet;
+        }
 
-    public void Remove(T entity)
-    {
-        _dbSet.Remove(entity);
+        public IQueryable<T> GetAll()
+        {
+            return _dbSet.AsQueryable<T>();
+        }
+
+        public void Insert(T entity)
+        {
+            _dbSet.Add(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
     }
 }

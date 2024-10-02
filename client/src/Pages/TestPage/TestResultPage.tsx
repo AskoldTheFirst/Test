@@ -12,6 +12,7 @@ export default function TestResultPage() {
     useEffect(() => {
         if (test !== null)
             agent.Test.result(test?.testId).then(result => setResult(result));
+            // TODO: we need to nullify [TestState] here. Should we create another Thunk?
     }, []);
 
     if (test === null)

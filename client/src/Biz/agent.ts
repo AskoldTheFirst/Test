@@ -20,7 +20,7 @@ axios.interceptors.response.use(async response => {
     return response;
 }, /*not 2xx responce range*/(error: AxiosError) => {
     const { data, status } = error.response as AxiosResponse;
-
+debugger;
     switch (status) {
         case 400:
         case 401:
@@ -33,7 +33,7 @@ axios.interceptors.response.use(async response => {
         default:
             break;
     }
-    return Promise.reject(error.response);
+    return Promise.reject(data);
 });
 
 const requests = {

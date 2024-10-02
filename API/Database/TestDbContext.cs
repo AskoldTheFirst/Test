@@ -7,6 +7,10 @@ namespace API.Database
 {
     public class TestDbContext : IdentityDbContext<User>
     {
+        public TestDbContext()
+        {
+        }
+
         public TestDbContext(DbContextOptions options) : base(options)
         {
         }

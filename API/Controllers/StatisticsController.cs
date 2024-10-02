@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder.Extensions;
 using API.Services;
 using API.Database.Entities;
 using System.Text.Json;
+using API.UoW;
 
 namespace API.Controllers
 {
@@ -22,23 +23,26 @@ namespace API.Controllers
 
         private readonly AppCacheService _cache;
 
-        public StatisticsController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService)
+        private readonly IUnitOfWork _uow;
+
+        public StatisticsController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService, IUnitOfWork uow)
         {
             _ctx = context;
             _logger = logger;
             _cache = cacheService;
+            _uow = uow;
         }
 
         [HttpGet("result-rows")]
         public async Task<ActionResult<PageDto<TestRowDto>>> GetResultRowsAsync([FromQuery] FilterDto filter)
         {
-            var query = _ctx.Tests.AsQueryable();
+            var query = _uow.TestRepo.GetAll();
             query = ApplyFilterWhere(query, filter);
 
             int skipAmount = (filter.PageNumber - 1) * filter.PageSize;
 
             TestRowDto[] selectedRows = await (from q in query.Include(t => t.Technology)
-                                               join t in _ctx.Technologies
+                                               join t in _uow.TechnologyRepo.All
                                                    on q.TechnologyId equals t.Id
                                                orderby q.FinalScore descending
                                                select new TestRowDto(q))
@@ -57,15 +61,15 @@ namespace API.Controllers
         [HttpGet("tops")]
         public async Task<ActionResult<TopDto[]>> GetTopsAsync(int topAmount)
         {
-            List<TopDto> tops = new List<TopDto>();
+            List<TopDto> tops = [];
 
-            var nameIdArray = await (from t in _ctx.Technologies
+            var nameIdArray = await (from t in _uow.TechnologyRepo.All
                                      where t.IsActive
                                      select new { t.Name, t.Id }).ToArrayAsync();
 
             foreach (var t in nameIdArray)
             {
-                TopLineDto[] lines = await (from tt in _ctx.Tests
+                TopLineDto[] lines = await (from tt in _uow.TestRepo.All
                                             where tt.TechnologyId == t.Id && tt.FinishDate != null && tt.FinalScore != null
                                             orderby tt.FinalScore descending
                                             select new TopLineDto
@@ -88,8 +92,8 @@ namespace API.Controllers
         [HttpGet("TopByTech")]
         public async Task<ActionResult<TopDto>> GetTopByTechnologyAsync(string technologyName, int topAmount)
         {
-            TopLineDto[] lines = await (from tt in _ctx.Tests
-                                        join t in _ctx.Technologies
+            TopLineDto[] lines = await (from tt in _uow.TestRepo.All
+                                        join t in _uow.TechnologyRepo.All
                                            on tt.TechnologyId equals t.Id
                                         where t.Name == technologyName
                                         orderby tt.FinalScore descending
@@ -114,18 +118,19 @@ namespace API.Controllers
                 query = query.Where(x => x.Username.Contains(param.UserSearch));
             }
 
-            //EF.Functions.DateDiffMinute
             DateTime dtNow = DateTime.Now;
             switch (param.Period)
             {
-                case TimePeriod.Today:
-                    //query = query.Where(x => (dtNow - x.StartDate).TotalHours < 24);
+                case TimePeriod.Last24Hours:
+                    query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 2);
                     break;
-                case TimePeriod.LastWeek:
-                    //query = query.Where(x => (dtNow - x.StartDate).TotalDays < 7);
+
+                case TimePeriod.Last7Days:
+                query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 8);
                     break;
-                case TimePeriod.LastMonth:
-                    //query = query.Where(x => (dtNow - x.StartDate).TotalDays < 30);
+
+                case TimePeriod.Last30Days:
+                query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 31);
                     break;
             }
 

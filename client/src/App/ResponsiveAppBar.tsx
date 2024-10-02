@@ -12,11 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { QueryStats } from '@mui/icons-material';
-import { NavLink } from 'react-router-dom';
-import { useAppSelector } from './configureStore';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from './configureStore';
 import SignedInMenu from './SignedInMenu';
-
-const settings = ['Profile', 'Logout'];
+import { signOut } from '../Pages/Account/accountSlice';
 
 const barLinks = [
     { title: 'Home', path: '/home' },
@@ -28,6 +27,8 @@ function ResponsiveAppBar() {
     let { user } = useAppSelector(state => state.account);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -51,7 +52,7 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static" sx={{marginBottom: '30px'}}>
+        <AppBar position="static" sx={{ marginBottom: '30px' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <QueryStats sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -102,7 +103,7 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {barLinks.map(({title, path}) => (
+                            {barLinks.map(({ title, path }) => (
                                 <MenuItem key={path} component={NavLink} to={path}>
                                     <Typography textAlign="center">{title}</Typography>
                                 </MenuItem>
@@ -129,7 +130,7 @@ function ResponsiveAppBar() {
                         TEST
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {barLinks.map(({title, path}) => (
+                        {barLinks.map(({ title, path }) => (
                             <Button
                                 component={NavLink}
                                 key={path}
@@ -163,11 +164,12 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem key="Profile" onClick={() => { navigate('/profile'); handleCloseUserMenu(); }}>
+                                <Typography textAlign="center">Profile</Typography>
+                            </MenuItem>
+                            <MenuItem key="LogOut" onClick={() => { dispatch(signOut()); handleCloseUserMenu(); }}>
+                                <Typography textAlign="center">Logout</Typography>
+                            </MenuItem>
                         </Menu>
 
                         {user ? (<SignedInMenu />) : (

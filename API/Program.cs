@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using LogClient;
 using LogClient.Types;
+using API.UoW;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,6 +95,7 @@ builder.Services.AddSingleton<LogClient.ILogger>(
 builder.Services.AddSingleton<LogClient.ITracer>(
     new WebTracer("http://localhost:5009", Product.Tester));
 
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork<TestDbContext>>();
 builder.Services.AddTransient<AppCacheService>();
 builder.Services.AddMemoryCache();
 

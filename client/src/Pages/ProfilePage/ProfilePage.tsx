@@ -1,7 +1,7 @@
 export default function ProfilePage() {
     return (
         <>
-        <h3>Profile</h3>
+            <h3>Profile</h3>
         </>
     );
 }
