@@ -12,6 +12,10 @@ using API.DTOs;
 using API.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using LogClient;
+using API.UoW;
+using Microsoft.EntityFrameworkCore;
+using API.Biz.Interfaces;
+using API.Biz.Service;
 
 namespace API.Controllers
 {
@@ -19,19 +23,16 @@ namespace API.Controllers
     {
         private readonly ITracer _tracer;
 
-        private readonly TestDbContext _ctx;
-
         private readonly UserManager<User> _userManager;
 
         private readonly TokenService _tokenService;
 
         public AccountController(
-            TestDbContext context,
             ITracer tracer,
             UserManager<User> userManager,
-            TokenService tokenService)
+            TokenService tokenService,
+            IUnitOfWork uow) : base(uow)
         {
-            _ctx = context;
             _tracer = tracer;
             _userManager = userManager;
             _tokenService = tokenService;
@@ -47,7 +48,7 @@ namespace API.Controllers
             await _tracer.TraceAsync("Login", loginDto.Username);
 
             return new UserDto
-            {
+              {
                 Email = user.Email,
                 Token = await _tokenService.GenerateTokenAsync(user),
                 Login = user.UserName
@@ -88,6 +89,26 @@ namespace API.Controllers
                 Token = await _tokenService.GenerateTokenAsync(user),
                 Login = user.UserName
             };
+        }
+
+        [Authorize]
+        [HttpGet("user-profile")]
+        public async Task<ActionResult<UserProfileDto>> GetUserProfileAsync()
+        {
+            string user = User.Identity.Name;
+            IUserProfile service = new UserProfileService(_uow);
+            return await service.GetUserProfileAsync(user);
+        }
+
+        [Authorize]
+        [HttpPost("user-profile")]
+        public async Task<ActionResult> SaveUserProfileAsync(UserProfileDto profile)
+        {
+            string user = User.Identity.Name;
+            IUserProfile service = new UserProfileService(_uow);
+            await service.SaveUserProfileAsync(profile, user);
+            
+            return Ok();
         }
     }
 }

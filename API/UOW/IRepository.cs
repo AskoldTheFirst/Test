@@ -11,6 +11,8 @@ namespace API.UoW
 
         void Insert(T obj);
 
+        void InsertRange(T[] objArray);
+
         void Delete(T obj);
     }
 }

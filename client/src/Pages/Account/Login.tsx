@@ -137,7 +137,6 @@ export default function Login() {
             </Box>
           </Box>
         </Grid>
-        <Grid item xl={3} lg={3} md={3} sm={1} xs={1} />
       </Grid>
     </>
   );

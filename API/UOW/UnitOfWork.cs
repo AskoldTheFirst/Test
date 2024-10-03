@@ -1,3 +1,4 @@
+using System.Data;
 using API.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -39,9 +40,9 @@ namespace API.UoW
             _transaction = null;
         }
 
-        public async Task CreateTransactionAsync()
+        public async Task CreateTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            _transaction = await _dbCtx.Database.BeginTransactionAsync();
+            _transaction = await _dbCtx.Database.BeginTransactionAsync(isolationLevel);
         }
 
         public async Task RollbackAsync()

@@ -17,18 +17,10 @@ namespace API.Controllers
 {
     public class StatisticsController : BaseApiController
     {
-        private readonly ILogger<AppController> _logger;
-
-        private readonly TestDbContext _ctx;
-
         private readonly AppCacheService _cache;
 
-        private readonly IUnitOfWork _uow;
-
-        public StatisticsController(TestDbContext context, ILogger<AppController> logger, AppCacheService cacheService, IUnitOfWork uow)
+        public StatisticsController(AppCacheService cacheService, IUnitOfWork uow) : base(uow)
         {
-            _ctx = context;
-            _logger = logger;
             _cache = cacheService;
             _uow = uow;
         }
@@ -126,11 +118,11 @@ namespace API.Controllers
                     break;
 
                 case TimePeriod.Last7Days:
-                query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 8);
+                    query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 8);
                     break;
 
                 case TimePeriod.Last30Days:
-                query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 31);
+                    query = query.Where(x => EF.Functions.DateDiffDay(x.StartDate, dtNow) < 31);
                     break;
             }
 

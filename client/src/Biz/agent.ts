@@ -3,6 +3,7 @@ import { store } from "../App/configureStore";
 import { router } from "../App/Routes";
 import { toast } from "react-toastify";
 import { PageFilterParamsDto } from "./DTOs/PageFilterParamsDto";
+import { ProfileDto } from "./DTOs/ProfileDto";
 
 //axios.defaults.baseURL = 'http://localhost:5001/api/';
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
@@ -68,11 +69,17 @@ const Statistics = {
     page: (filter: PageFilterParamsDto) => requests.get('statistics/result-rows', filter),
 }
 
+const Profile = {
+    save: (profile: ProfileDto) => requests.post('account/user-profile', profile),
+    get: () => requests.get('account/user-profile'),
+}
+
 const agent = {
     App,
     Test,
     Account,
-    Statistics
+    Statistics,
+    Profile
 }
 
 export default agent;

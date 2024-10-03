@@ -15,6 +15,7 @@ using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LogClient;
+using API.UoW;
 
 namespace API.Controllers
 {
@@ -24,21 +25,18 @@ namespace API.Controllers
 
         private readonly ITracer _tracer;
 
-        private readonly TestDbContext _ctx;
-
         private readonly AppCacheService _cache;
 
         private readonly UserManager<User> _userManager;
 
 
         public TestController(
-            TestDbContext context,
             LogClient.ILogger logger,
             AppCacheService cacheService,
             UserManager<User> userManager,
-            ITracer tracer)
+            ITracer tracer,
+            IUnitOfWork uow) : base(uow)
         {
-            _ctx = context;
             _logger = logger;
             _cache = cacheService;
             _userManager = userManager;
@@ -64,8 +62,8 @@ namespace API.Controllers
                 Username = user
             };
 
-            _ctx.Tests.Add(newTest);
-            await _ctx.SaveChangesAsync();
+            _uow.TestRepo.Insert(newTest);
+            await _uow.SaveAsync();
 
             TestQuestion[] generatedQuestions = new TestQuestion[questionAmount];
             for (int i = 0; i < questionAmount; ++i)
@@ -77,8 +75,8 @@ namespace API.Controllers
                 };
             }
 
-            _ctx.TestQuestions.AddRange(generatedQuestions);
-            await _ctx.SaveChangesAsync();
+            _uow.TestQuestionRepo.InsertRange(generatedQuestions);
+            await _uow.SaveAsync();
 
             Technology currentTechnology = _cache.GetTechnologyByName(techName);
             InitTestResultDto result = new();
@@ -96,11 +94,11 @@ namespace API.Controllers
         [HttpPost("answer")]
         public async Task<ActionResult> Answer(int testId, int questionId, byte answerNumber)
         {
-            var answerPointAndTechId = await (from q in _ctx.Questions
+            var answerPointAndTechId = await (from q in _uow.QuestionRepo.All
                                               where q.Id == questionId
                                               select new { q.CorrectAnswerNumber, q.TechnologyId }).SingleAsync();
 
-            var currentTestQuestion = await (from tq in _ctx.TestQuestions
+            var currentTestQuestion = await (from tq in _uow.TestQuestionRepo.All
                                              where tq.TestId == testId && tq.QuestionId == questionId
                                              select tq).SingleAsync();
 
@@ -108,7 +106,7 @@ namespace API.Controllers
             currentTestQuestion.AnswerPoints = (byte)(answerNumber == answerPointAndTechId.CorrectAnswerNumber ? 1 : 0);
             currentTestQuestion.AnswerDate = DateTime.Now;
 
-            await _ctx.SaveChangesAsync();
+            await _uow.SaveAsync();
 
             return Ok();
         }
@@ -122,9 +120,9 @@ namespace API.Controllers
             long sessionId = DateTime.Now.Ticks;
             await _tracer.TraceAsync("NextQuestion", userName, sessionId, sessionId);
 
-            QuestionDto nextQuestion = await (from tq in _ctx.TestQuestions
-                                              join q in _ctx.Questions on tq.QuestionId equals q.Id
-                                              join t in _ctx.Tests on tq.TestId equals t.Id
+            QuestionDto nextQuestion = await (from tq in _uow.TestQuestionRepo.All
+                                              join q in _uow.QuestionRepo.All on tq.QuestionId equals q.Id
+                                              join t in _uow.TestRepo.All on tq.TestId equals t.Id
                                               where tq.AnswerDate == null && tq.TestId == testId && t.Username == userName
                                               orderby tq.RequestDate descending
                                               select new QuestionDto
@@ -141,13 +139,13 @@ namespace API.Controllers
 
             if (nextQuestion != null)
             {
-                TestQuestion nextTestQuestion = await (from tq in _ctx.TestQuestions
+                TestQuestion nextTestQuestion = await (from tq in _uow.TestQuestionRepo.All
                                                        where tq.TestId == testId && tq.QuestionId == nextQuestion.QuestionId
                                                        select tq).SingleAsync();
 
                 nextTestQuestion.RequestDate = DateTime.Now;
 
-                await _ctx.SaveChangesAsync();
+                await _uow.SaveAsync();
             }
 
             await _tracer.TraceAsync("NextQuestion", userName, DateTime.Now.Ticks, sessionId);
@@ -164,14 +162,14 @@ namespace API.Controllers
 
             if (testId.HasValue)
             {
-                currentTest = await (from t in _ctx.Tests
+                currentTest = await (from t in _uow.TestRepo.All
                                      where t.Username == userName && t.Id == testId && t.FinishDate == null
                                      orderby t.StartDate descending
                                      select t).SingleOrDefaultAsync();
             }
             else
             {
-                currentTest = await (from t in _ctx.Tests
+                currentTest = await (from t in _uow.TestRepo.All
                                      where t.Username == userName && t.FinishDate == null && (DateTime.Now - t.StartDate).TotalMinutes < 90
                                      orderby t.StartDate descending
                                      select t).FirstOrDefaultAsync();
@@ -179,8 +177,8 @@ namespace API.Controllers
 
             int currentTestId = currentTest.Id;
 
-            QuestionDto nextQuestion = await (from tq in _ctx.TestQuestions
-                                              join q in _ctx.Questions on tq.QuestionId equals q.Id
+            QuestionDto nextQuestion = await (from tq in _uow.TestQuestionRepo.All
+                                              join q in _uow.QuestionRepo.All on tq.QuestionId equals q.Id
                                               where tq.AnswerDate == null && tq.TestId == currentTestId
                                               orderby tq.RequestDate descending
                                               select new QuestionDto
@@ -197,13 +195,13 @@ namespace API.Controllers
 
             if (nextQuestion != null)
             {
-                TestQuestion nextTestQuestion = await (from tq in _ctx.TestQuestions
+                TestQuestion nextTestQuestion = await (from tq in _uow.TestQuestionRepo.All
                                                        where tq.TestId == currentTestId && tq.QuestionId == nextQuestion.QuestionId
                                                        select tq).SingleAsync();
 
                 nextTestQuestion.RequestDate = DateTime.Now;
 
-                await _ctx.SaveChangesAsync();
+                await _uow.SaveAsync();
             }
 
             Technology testTechnology = _cache.GetTechnologyById(currentTest.TechnologyId);
@@ -226,7 +224,7 @@ namespace API.Controllers
 
             int amount = await GetAmountOfAlreadyAnsweredQuestionsAsync(testId);
 
-            return await (from t in _ctx.Tests
+            return await (from t in _uow.TestRepo.All
                           where t.Id == testId && t.Username == userName
                           select new TestResultDto
                           {
@@ -242,7 +240,7 @@ namespace API.Controllers
         {
             string userName = User.Identity.Name;
 
-            var totalPointsAndAmout = await (from tq in _ctx.TestQuestions
+            var totalPointsAndAmout = await (from tq in _uow.TestQuestionRepo.All
                                              where tq.TestId == testId
                                              group tq by 1 into grp
                                              select new
@@ -253,14 +251,14 @@ namespace API.Controllers
 
             float finalScore = totalPointsAndAmout.Total / (float)totalPointsAndAmout.Amount * 100;
 
-            Test currentTest = await (from t in _ctx.Tests
+            Test currentTest = await (from t in _uow.TestRepo.All
                                       where t.Id == testId && t.Username == userName
                                       select t).SingleAsync();
 
             currentTest.FinalScore = finalScore;
             currentTest.FinishDate = DateTime.Now;
 
-            await _ctx.SaveChangesAsync();
+            await _uow.SaveAsync();
 
             return await TestResult(testId);
         }
@@ -286,7 +284,7 @@ namespace API.Controllers
 
         private async Task<int> GetAmountOfAlreadyAnsweredQuestionsAsync(int testId)
         {
-            return await (from q in _ctx.TestQuestions
+            return await (from q in _uow.TestQuestionRepo.All
                           where q.TestId == testId && q.AnswerDate != null
                           select q.Id).CountAsync();
         }

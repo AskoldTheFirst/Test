@@ -69,7 +69,7 @@ export default function Register() {
   return (
     <>
       {/* <Card variant="outlined" sx={{ marginTop: 10 }}> */}
-      <Grid container sx={{ marginTop: 8 }}>
+      <Grid container sx={{ marginTop: 10 }}>
         <Grid item xl={3} lg={3} md={3} sm={1} xs={1} />
         <Grid item xl={6} lg={6} md={6} sm={10} xs={10}>
           <Box sx={{ width: '100%', maxWidth: '450px' }}>

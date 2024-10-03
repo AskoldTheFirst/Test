@@ -9,18 +9,14 @@ using Microsoft.Extensions.Logging;
 using API.Database;
 using API.DTOs;
 using Microsoft.EntityFrameworkCore;
+using API.UoW;
 
 namespace API.Controllers
 {
     public class AppController : BaseApiController
     {
-        private readonly ILogger<AppController> _logger;
-        private readonly TestDbContext _ctx;
-
-        public AppController(TestDbContext context, ILogger<AppController> logger)
+        public AppController(IUnitOfWork uow) : base(uow)
         {
-            _ctx = context;
-            _logger = logger;
         }
 
         [HttpGet("InitState")]
@@ -28,7 +24,7 @@ namespace API.Controllers
         {
             InitStateDto dto = new InitStateDto();
 
-            dto.Technologies = await (from t in _ctx.Technologies
+            dto.Technologies = await (from t in _uow.TechnologyRepo.All
                                       where t.IsActive
                                       select new TechnologyDto()
                                       {
@@ -43,13 +39,15 @@ namespace API.Controllers
         [HttpGet("Technologies")]
         public async Task<ActionResult<TechnologyDto[]>> GetTechnologiesAsync()
         {
-            return await (from t in _ctx.Technologies
-                            where t.IsActive
-                            select new TechnologyDto() {
-                                Id = t.Id,
-                                Name = t.Name,
-                                Amount = t.QuestionsAmount,
-                                Duration = t.DurationInMinutes }).ToArrayAsync();
+            return await (from t in _uow.TechnologyRepo.All
+                          where t.IsActive
+                          select new TechnologyDto()
+                          {
+                              Id = t.Id,
+                              Name = t.Name,
+                              Amount = t.QuestionsAmount,
+                              Duration = t.DurationInMinutes
+                          }).ToArrayAsync();
         }
     }
 }

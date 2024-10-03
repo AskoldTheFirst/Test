@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using API.Database.Entities;
 
@@ -15,7 +16,7 @@ namespace API.UoW
 
         IRepository<User> UserRepo { get; }
 
-        Task CreateTransactionAsync();
+        Task CreateTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
 
         Task CommitTransactionAsync();
 

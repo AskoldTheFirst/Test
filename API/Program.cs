@@ -12,6 +12,8 @@ using LogClient;
 using LogClient.Types;
 using API.UoW;
 using Microsoft.Extensions.DependencyInjection;
+using API.Biz.Interfaces;
+using API.Biz.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +98,7 @@ builder.Services.AddSingleton<LogClient.ITracer>(
     new WebTracer("http://localhost:5009", Product.Tester));
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork<TestDbContext>>();
+builder.Services.AddTransient<IUserProfile, UserProfileService>();
 builder.Services.AddTransient<AppCacheService>();
 builder.Services.AddMemoryCache();
 

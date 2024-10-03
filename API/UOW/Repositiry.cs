@@ -23,6 +23,11 @@ namespace API.UoW
             _dbSet.Add(entity);
         }
 
+        public void InsertRange(T[] objArray)
+        {
+            _dbSet.AddRange(objArray);
+        }
+
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
