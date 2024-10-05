@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LogClient;
 using API.UoW;
+using System.ComponentModel;
 
 namespace API.Controllers
 {
@@ -63,6 +64,8 @@ namespace API.Controllers
             };
 
             _uow.TestRepo.Insert(newTest);
+
+            await _uow.CreateTransactionAsync();
             await _uow.SaveAsync();
 
             TestQuestion[] generatedQuestions = new TestQuestion[questionAmount];
@@ -77,6 +80,7 @@ namespace API.Controllers
 
             _uow.TestQuestionRepo.InsertRange(generatedQuestions);
             await _uow.SaveAsync();
+            await _uow.CommitTransactionAsync();
 
             Technology currentTechnology = _cache.GetTechnologyByName(techName);
             InitTestResultDto result = new();
@@ -293,7 +297,8 @@ namespace API.Controllers
         {
             if (amountOfNumbers > to)
             {
-                throw new ArgumentException("");
+                throw new InvalidEnumArgumentException(
+                    $"'amountOfNumbers': {amountOfNumbers} can not be greater than 'to': {to}");
             }
 
             List<int> newRandomIds = new List<int>();

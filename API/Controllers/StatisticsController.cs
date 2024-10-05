@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using API.Database;
 using API.DTOs;
 using API.Types;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder.Extensions;
 using API.Services;
-using API.Database.Entities;
-using System.Text.Json;
 using API.UoW;
 
 namespace API.Controllers

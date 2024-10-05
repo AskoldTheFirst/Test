@@ -14,6 +14,7 @@ const responseBody = (response: AxiosResponse) => response.data;
 axios.interceptors.request.use(config => {
     const token = store.getState().account.user?.token;
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    //window.Logger.log('just request', 'user');
     return config;
 });
 
@@ -21,7 +22,6 @@ axios.interceptors.response.use(async response => {
     return response;
 }, /*not 2xx responce range*/(error: AxiosError) => {
     const { data, status } = error.response as AxiosResponse;
-debugger;
     switch (status) {
         case 400:
         case 401:
@@ -34,6 +34,7 @@ debugger;
         default:
             break;
     }
+    //window.Logger.log(data.title, store.getState().account.user?.login);
     return Promise.reject(data);
 });
 
@@ -48,6 +49,7 @@ const App = {
     initState: () => requests.get(`App/InitState`),
     technologies: () => requests.get(`App/Technologies`),
     tops: (amount: number) => requests.get(`statistics/tops?topAmount=${amount}`),
+    logger: () => requests.get(`app/logger`),
 }
 
 const Test = {

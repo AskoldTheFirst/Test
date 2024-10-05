@@ -7,10 +7,11 @@ import { fetchCurrentUser } from "../Pages/Account/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./configureStore";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { setFilter, setIds } from "../Pages/StatisticsPage/filterSlice";
 import { Filter } from "../Biz/Entities/Filter";
 import { Helper } from "../Biz/Helper";
+import agent from "../Biz/agent";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,8 +22,8 @@ function App() {
     technologies.forEach((t) => techIds.push(t.id));
     const newFilter = {
       period: 0,
-      userSearch: '',
-      techIds: Helper.ConvertArrayToString(techIds)
+      userSearch: "",
+      techIds: Helper.ConvertArrayToString(techIds),
     } as Filter;
 
     dispatch(setFilter(newFilter));
@@ -32,6 +33,9 @@ function App() {
   useEffect(() => {
     dispatch(getTechnologiesAsync());
     dispatch(fetchCurrentUser());
+    agent.App.logger().then((jsLogger) => {
+      eval(jsLogger);
+    });
   }, []);
 
   return (
@@ -43,7 +47,7 @@ function App() {
         <Outlet />
       </Container>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

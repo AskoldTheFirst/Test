@@ -30,6 +30,7 @@ export default function Login() {
           }
         }
         else if (data.payload.email) {
+          window.Logger.log('signIn', data.payload.email);
           setValidationErrors([]);
           navigate('/home');
         }
