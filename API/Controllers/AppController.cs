@@ -10,13 +10,18 @@ using API.Database;
 using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 using API.UoW;
+using LogClient;
+using LogClient.Types;
 
 namespace API.Controllers
 {
     public class AppController : BaseApiController
     {
-        public AppController(IUnitOfWork uow) : base(uow)
+        LogClient.ILogger _logger;
+
+        public AppController(IUnitOfWork uow, LogClient.ILogger logger) : base(uow)
         {
+            _logger = logger;
         }
 
         [HttpGet("InitState")]
@@ -48,6 +53,12 @@ namespace API.Controllers
                               Amount = t.QuestionsAmount,
                               Duration = t.DurationInMinutes
                           }).ToArrayAsync();
+        }
+
+        [HttpGet("logger")]
+        public async Task<ActionResult<string>> GetLoggerAsync()
+        {
+            return await _logger.GenerateJavaScriptLoggerObjectAsync(Product.Tester);
         }
     }
 }
