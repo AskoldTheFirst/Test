@@ -62,10 +62,8 @@ export default function TechnologyComp() {
         return (
             <Grid container spacing={2} columns={16}>
                 {GenerateGridItemsArray(technologies)?.map((n) => (
-                    <Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0}>
-                        <center>
-                            <TechnologyCardComp id={n?.id} techName={n?.name} questionsAmount={n?.amount} duration={n?.duration} isEmpty={n == null} />
-                        </center>
+                    <Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0} sx={{ textAlign: 'center' }}>
+                        <TechnologyCardComp id={n?.id} techName={n?.name} questionsAmount={n?.amount} duration={n?.duration} isEmpty={n == null} />
                     </Grid>
                 ))}
             </Grid >
@@ -76,15 +74,11 @@ export default function TechnologyComp() {
             <Grid container spacing={2} columns={16}>
                 {GenerateGridItemsArray(technologies)?.map((n) => (
                     n == null ?
-                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0}>
-                            <center>
-                                <EmptyComp />
-                            </center>
+                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={0} xs={0} sx={{ textAlign: 'center' }}>
+                            <EmptyComp />
                         </Grid>) :
-                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={8} xs={8}>
-                            <center>
-                                <TechnologyCardComp id={n.id} techName={n.name} questionsAmount={n.amount} duration={n.duration} />
-                            </center>
+                        (<Grid item key={++uniqueCounter} xl={3} lg={3} md={4} sm={8} xs={8} sx={{ textAlign: 'center' }}>
+                            <TechnologyCardComp id={n.id} techName={n.name} questionsAmount={n.amount} duration={n.duration} />
                         </Grid>
                         )
                 ))}

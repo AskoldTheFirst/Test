@@ -10,9 +10,7 @@ import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
-  //const location = useLocation();
   const dispatch = useAppDispatch();
-  //let { user } = useAppSelector(state => state.account);
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm({
     mode: 'onSubmit'
   });
@@ -30,6 +28,7 @@ export default function Login() {
           }
         }
         else if (data.payload.email) {
+          // TODO - How to remove this error-underlying?
           window.Logger.log('signIn', data.payload.email);
           setValidationErrors([]);
           navigate('/home');
@@ -59,6 +58,7 @@ export default function Login() {
   return (
     <>
       {/* <Card variant="outlined" sx={{marginTop: 10}}> */}
+      {/* TODO - How to make form borders? */}
       <Grid container sx={{marginTop: 10}}>
         <Grid item xl={3} lg={3} md={3} sm={1} xs={1} />
         {/* TODO-11 Is there any better way to center the login form? */}

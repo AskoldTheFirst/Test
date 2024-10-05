@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserDto } from "../../Biz/DTOs/UserDto";
 import { FieldValues } from "react-hook-form";
 import agent from "../../Biz/agent";
+import { router } from "../../App/Routes";
 
 export interface AccountState {
     user: UserDto | null;
@@ -55,7 +56,7 @@ export const accountSlice = createSlice({
         signOut: (state) => {
             state.user = null;
             localStorage.removeItem('user');
-            //router.navigate('/');
+            router.navigate('/login');
         },
     },
     extraReducers: (builder => {

@@ -167,7 +167,7 @@ function ResponsiveAppBar() {
                             <MenuItem key="Profile" onClick={() => { navigate('/profile'); handleCloseUserMenu(); }}>
                                 <Typography textAlign="center">Profile</Typography>
                             </MenuItem>
-                            <MenuItem key="LogOut" onClick={() => { dispatch(signOut()); navigate('/login'); handleCloseUserMenu(); }}>
+                            <MenuItem key="LogOut" onClick={() => { dispatch(signOut()); handleCloseUserMenu(); }}>
                                 <Typography textAlign="center">Logout</Typography>
                             </MenuItem>
                         </Menu>

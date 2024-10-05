@@ -42,7 +42,6 @@ export default function SignedInMenu() {
                 <MenuItem onClick={() => {
                     dispatch(signOut());
                     handleClose();
-                    navigate('/login');
                 }}>
                     Logout
                 </MenuItem>
