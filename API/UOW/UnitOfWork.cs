@@ -33,6 +33,8 @@ namespace API.UoW
 
         public IRepository<User> UserRepo => GetRepository<User>();
 
+        public IRepository<Message> MessageRepo => GetRepository<Message>();
+
 
         public async Task CommitTransactionAsync()
         {

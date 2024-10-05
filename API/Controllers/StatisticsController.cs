@@ -4,6 +4,7 @@ using API.Types;
 using Microsoft.EntityFrameworkCore;
 using API.Services;
 using API.UoW;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -17,6 +18,7 @@ namespace API.Controllers
             _uow = uow;
         }
 
+        [Authorize]
         [HttpGet("result-rows")]
         public async Task<ActionResult<PageDto<TestRowDto>>> GetResultRowsAsync([FromQuery] FilterDto filter)
         {
@@ -42,6 +44,7 @@ namespace API.Controllers
             };
         }
 
+        [Authorize]
         [HttpGet("tops")]
         public async Task<ActionResult<TopDto[]>> GetTopsAsync(int topAmount)
         {
@@ -73,6 +76,7 @@ namespace API.Controllers
             return tops.ToArray();
         }
 
+        [Authorize]
         [HttpGet("TopByTech")]
         public async Task<ActionResult<TopDto>> GetTopByTechnologyAsync(string technologyName, int topAmount)
         {

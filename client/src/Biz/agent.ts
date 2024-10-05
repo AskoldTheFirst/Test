@@ -48,8 +48,8 @@ const requests = {
 const App = {
     initState: () => requests.get(`App/InitState`),
     technologies: () => requests.get(`App/Technologies`),
-    tops: (amount: number) => requests.get(`statistics/tops?topAmount=${amount}`),
     logger: () => requests.get(`app/logger`),
+    postMessage: (email: string, message: string) => requests.post(`app/message`, {email: email, message: message}),
 }
 
 const Test = {

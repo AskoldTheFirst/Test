@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using API.UoW;
 using LogClient;
 using LogClient.Types;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -59,6 +60,23 @@ namespace API.Controllers
         public async Task<ActionResult<string>> GetLoggerAsync()
         {
             return await _logger.GenerateJavaScriptLoggerObjectAsync(Product.Tester);
+        }
+
+        [Authorize]
+        [HttpPost("message")]
+        public async Task<ActionResult> PostMessageAsync([FromBody] MessageDto message)
+        {
+            string userName = User.Identity.Name;
+
+            Message newMessage = new Message();
+            newMessage.Email = message.Email;
+            newMessage.Text = message.Message;
+            newMessage.Username = userName;
+
+            _uow.MessageRepo.Insert(newMessage);
+            await _uow.SaveAsync();
+
+            return Ok();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace API.UoW
 
         IRepository<TestQuestion> TestQuestionRepo { get; }
 
+        IRepository<Message> MessageRepo { get; }
+
         IRepository<User> UserRepo { get; }
 
         Task CreateTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);

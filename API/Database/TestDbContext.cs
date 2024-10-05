@@ -55,6 +55,9 @@ namespace API.Database
 
             builder.Entity<Test>().HasIndex(e => e.Username);
             builder.Entity<Test>().HasIndex(e => e.FinalScore);
+
+            builder.Entity<Message>().Property(c => c.Data).HasDefaultValueSql("getdate()");
+            builder.Entity<Message>().HasIndex(c => c.Username);
         }
 
         public DbSet<Question> Questions { get; set; }
@@ -64,5 +67,7 @@ namespace API.Database
         public DbSet<Test> Tests { get; set; }
 
         public DbSet<TestQuestion> TestQuestions { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
     }
 }
