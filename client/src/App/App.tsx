@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { setFilter, setIds } from "../Pages/StatisticsPage/filterSlice";
 import { Filter } from "../Biz/Entities/Filter";
 import { Helper } from "../Biz/Helper";
-import agent from "../Biz/agent";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,9 +32,6 @@ function App() {
   useEffect(() => {
     dispatch(getTechnologiesAsync());
     dispatch(fetchCurrentUser());
-    agent.App.logger().then((jsLogger) => {
-      eval(jsLogger);
-    });
   }, []);
 
   return (

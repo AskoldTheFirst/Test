@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace API.UoW
+namespace API.UnitOfWork
 {
     public class Repository<T> : IRepository<T> where T : class
     {

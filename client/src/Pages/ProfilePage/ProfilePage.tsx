@@ -2,25 +2,16 @@ import {
   Box,
   Button,
   Grid,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
-import { useAppSelector } from "../../App/configureStore";
 import { useEffect, useState } from "react";
 import agent from "../../Biz/agent";
-import { Label } from "@mui/icons-material";
 
 export default function ProfilePage() {
   const [about, setAbout] = useState<string>("");
   const [contacts, setContacts] = useState<string>("");
-  const { user } = useAppSelector((state) => state.account);
+
 
   useEffect(() => {
     agent.Profile.get().then((data) => {

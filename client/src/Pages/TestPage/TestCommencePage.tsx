@@ -1,16 +1,18 @@
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { TechnologyDto } from "../../Biz/DTOs/TechnologyDto";
 import { AppDispatch, RootState } from "../../App/configureStore";
 import { initiateTest } from "./testSlice";
+import { LoadingButton } from "@mui/lab";
 
 export default function TestCommencePage() {
     const dispatch = useDispatch<AppDispatch>();
     const { testId } = useParams<string>();
     const { technologies } = useSelector((state: RootState) => state.tech);
     const [currentTechnology, setCurrentTechnology] = useState<TechnologyDto>();
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,7 +39,8 @@ export default function TestCommencePage() {
         if (currentTechnology === undefined)
             return;
 
-        dispatch(initiateTest(encodeURIComponent(currentTechnology.name)));
+        setLoading(true);
+        dispatch(initiateTest(encodeURIComponent(currentTechnology.name))).then(() => setLoading(false));
     }
 
     return (
@@ -47,7 +50,7 @@ export default function TestCommencePage() {
                     <>
                         <Typography fontSize={22} variant="h6">You are about to start {currentTechnology.name} test.</Typography>
                         <Typography sx={{marginTop: '18px'}} fontSize={16} variant="h6">You will have to answer {currentTechnology.amount} questions for {currentTechnology.duration} minutes.</Typography>
-                        <Button sx={{ marginTop: 4 }} variant="contained" disabled={currentTechnology == undefined} onClick={StartHandler}>Start</Button>
+                        <LoadingButton loading={loading} sx={{ marginTop: 4 }} variant="contained" disabled={currentTechnology == undefined} onClick={StartHandler}>Start</LoadingButton>
                     </>
                     :
                     <>

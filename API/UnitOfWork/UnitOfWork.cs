@@ -3,7 +3,7 @@ using API.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace API.UoW
+namespace API.UnitOfWork
 {
     public class UnitOfWork<TContext> : IUnitOfWork, IAsyncDisposable where TContext : DbContext, new()
     {

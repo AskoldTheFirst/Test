@@ -1,7 +1,7 @@
 using API.Biz.Interfaces;
 using API.Database.Entities;
 using API.DTOs;
-using API.UoW;
+using API.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Biz.Service

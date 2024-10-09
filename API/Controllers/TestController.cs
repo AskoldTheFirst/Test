@@ -15,16 +15,15 @@ using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LogClient;
-using API.UoW;
+using API.UnitOfWork;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace API.Controllers
 {
     public class TestController : BaseApiController
     {
         private readonly LogClient.ILogger _logger;
-
-        private readonly ITracer _tracer;
 
         private readonly AppCacheService _cache;
 
@@ -36,12 +35,11 @@ namespace API.Controllers
             AppCacheService cacheService,
             UserManager<User> userManager,
             ITracer tracer,
-            IUnitOfWork uow) : base(uow)
+            IUnitOfWork uow) : base(uow, tracer)
         {
             _logger = logger;
             _cache = cacheService;
             _userManager = userManager;
-            _tracer = tracer;
         }
 
         [Authorize]
@@ -49,9 +47,9 @@ namespace API.Controllers
         public async Task<ActionResult<InitTestResultDto>> InitiateNewTest(string techName)
         {
             string user = User.Identity.Name;
-
-            long sessionId = DateTime.Now.Ticks;
-            await _tracer.TraceAsync("InitiateNewTest", user, sessionId, sessionId);
+            string remoteIp = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            
+            await BeginPerformanceTraceAsync("InitiateNewTest", user, true);
 
             int[] randomQuestionIds = GenerateRandomQuestionsForTest(
                 techName, out int questionAmount, out int technologyId);
@@ -60,7 +58,8 @@ namespace API.Controllers
             {
                 TechnologyId = technologyId,
                 StartDate = DateTime.Now,
-                Username = user
+                Username = user,
+                IpAddress = remoteIp
             };
 
             _uow.TestRepo.Insert(newTest);
@@ -89,7 +88,7 @@ namespace API.Controllers
             result.SecondsLeft = currentTechnology.DurationInMinutes * 60;
             result.TechnologyName = currentTechnology.Name;
 
-            await _tracer.TraceAsync("InitiateNewTest", user, DateTime.Now.Ticks, sessionId);
+            await EndPerformanceTraceAsync("InitiateNewTest", user);
 
             return result;
         }
@@ -121,8 +120,7 @@ namespace API.Controllers
         {
             string userName = User.Identity.Name;
 
-            long sessionId = DateTime.Now.Ticks;
-            await _tracer.TraceAsync("NextQuestion", userName, sessionId, sessionId);
+            await BeginPerformanceTraceAsync("InitiateNewTest", userName, true);
 
             QuestionDto nextQuestion = await (from tq in _uow.TestQuestionRepo.All
                                               join q in _uow.QuestionRepo.All on tq.QuestionId equals q.Id
@@ -152,7 +150,7 @@ namespace API.Controllers
                 await _uow.SaveAsync();
             }
 
-            await _tracer.TraceAsync("NextQuestion", userName, DateTime.Now.Ticks, sessionId);
+            await EndPerformanceTraceAsync("InitiateNewTest", userName);
 
             return nextQuestion;
         }

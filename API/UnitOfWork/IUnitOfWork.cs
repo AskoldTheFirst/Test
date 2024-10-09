@@ -2,7 +2,7 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using API.Database.Entities;
 
-namespace API.UoW
+namespace API.UnitOfWork
 {
     public interface IUnitOfWork
     {

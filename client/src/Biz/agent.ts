@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../App/configureStore";
 import { router } from "../App/Routes";
-import { toast } from "react-toastify";
 import { PageFilterParamsDto } from "./DTOs/PageFilterParamsDto";
 import { ProfileDto } from "./DTOs/ProfileDto";
 
@@ -22,11 +21,16 @@ axios.interceptors.response.use(async response => {
     return response;
 }, /*not 2xx responce range*/(error: AxiosError) => {
     const { data, status } = error.response as AxiosResponse;
+    
+    const user = store.getState().account.user;
+    window.Logger.log('agent interceptor: ' + data.title, user ? user.login : null);
+
     switch (status) {
         case 400:
+            break;
         case 401:
+            break;
         case 404:
-            toast.error(data.title);
             break;
         case 500:
             router.navigate('/server-error', { state: { error: data } });
@@ -34,7 +38,7 @@ axios.interceptors.response.use(async response => {
         default:
             break;
     }
-    //window.Logger.log(data.title, store.getState().account.user?.login);
+    
     return Promise.reject(data);
 });
 
@@ -49,7 +53,8 @@ const App = {
     initState: () => requests.get(`App/InitState`),
     technologies: () => requests.get(`App/Technologies`),
     logger: () => requests.get(`app/logger`),
-    postMessage: (email: string, message: string) => requests.post(`app/message`, {email: email, message: message}),
+    tracer: () => requests.get(`app/tracer`),
+    postMessage: (email: string, message: string) => requests.post(`app/message`, { email: email, message: message }),
 }
 
 const Test = {

@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using LogClient;
 using LogClient.Types;
-using API.UoW;
-using Microsoft.Extensions.DependencyInjection;
+using API.UnitOfWork;
 using API.Biz.Interfaces;
 using API.Biz.Service;
 
@@ -91,11 +90,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 
+string host = null;
+#if DEBUG
+    host = builder.Configuration["DevLogHost"];
+#else
+    host = builder.Configuration["ProdLogHost"];
+#endif
 builder.Services.AddSingleton<LogClient.ILogger>(
-    new WebLogger("http://localhost:5009", Product.Tester, LayerType.BackEnd));
+    new WebLogger(host, Product.Tester, LayerType.BackEnd));
 
 builder.Services.AddSingleton<LogClient.ITracer>(
-    new WebTracer("http://localhost:5009", Product.Tester));
+    new WebTracer(host, Product.Tester));
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork<TestDbContext>>();
 builder.Services.AddTransient<IUserProfile, UserProfileService>();
@@ -123,7 +128,7 @@ app.UseCors(opt =>
         .WithOrigins([
             "http://localhost:3004",
             "http://127.0.0.1:3004",
-            "http://askold-001-site3.atempurl.com"
+            "http://askold-001-site2.atempurl.com",
         ]);
 });
 

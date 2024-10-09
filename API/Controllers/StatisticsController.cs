@@ -3,8 +3,9 @@ using API.DTOs;
 using API.Types;
 using Microsoft.EntityFrameworkCore;
 using API.Services;
-using API.UoW;
+using API.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
+using LogClient;
 
 namespace API.Controllers
 {
@@ -12,7 +13,7 @@ namespace API.Controllers
     {
         private readonly AppCacheService _cache;
 
-        public StatisticsController(AppCacheService cacheService, IUnitOfWork uow) : base(uow)
+        public StatisticsController(AppCacheService cacheService, IUnitOfWork uow, ITracer tracer) : base(uow, tracer)
         {
             _cache = cacheService;
             _uow = uow;

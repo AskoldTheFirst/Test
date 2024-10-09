@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import agent from "../../Biz/agent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../App/configureStore";
 import { incrementQuestionNumber, nextQuestion, nextQuestionState } from "./testSlice";
 import QuestionHeaderCmp from "./QuestionHeaderCmp";
+import { LoadingButton } from "@mui/lab";
 
 export default function TestPage() {
     const dispatch = useDispatch<AppDispatch>();
     const [answer, setAnswer] = useState<number>(0);
     const [flag, setFlag] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const { test } = useSelector((state: RootState) => state.test);
 
     useEffect(() => {
+        setLoading(true);
         if (test === null) {
             const testId = localStorage.getItem('testId');
-            dispatch(nextQuestionState(testId === null ? null : parseInt(testId)));
+            dispatch(nextQuestionState(testId === null ? null : parseInt(testId)))
+                .then(() => setLoading(false));
         }
         else {
-            dispatch(nextQuestion(test.testId));
+            dispatch(nextQuestion(test.testId))
+                .then(() => setLoading(false));
         }
     }, [flag]);
 
@@ -39,6 +44,7 @@ export default function TestPage() {
                         dispatch(incrementQuestionNumber());
                         setFlag(!flag);
                     }
+                    setAnswer(0);
                 });
         }
     }
@@ -71,6 +77,7 @@ export default function TestPage() {
                     defaultValue="0"
                     name="radio-buttons-group"
                     onChange={answerChangeHandler}
+                    value={answer}
                 >
                     <FormControlLabel sx={{ marginTop: '6px' }} value="1" control={<Radio />} label={test.question.answer1} />
                     <FormControlLabel value="2" control={<Radio />} label={test.question.answer2} />
@@ -81,7 +88,7 @@ export default function TestPage() {
             <hr />
             <br />
 
-            <Button variant="contained" disabled={answer == 0} onClick={nextHandler}>Next</Button>
+            <LoadingButton variant="contained" loading={loading} disabled={answer === 0} onClick={nextHandler}>Next</LoadingButton>
         </>
     );
 }

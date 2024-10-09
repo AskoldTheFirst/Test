@@ -15,4 +15,8 @@ export class Helper {
         const min = (seconds - sec) / 60;
         return `${min}:${sec}`;
     }
+
+    static get UserKey() : string {
+        return 'user';
+    }
 }

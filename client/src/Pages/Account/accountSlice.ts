@@ -3,6 +3,7 @@ import { UserDto } from "../../Biz/DTOs/UserDto";
 import { FieldValues } from "react-hook-form";
 import agent from "../../Biz/agent";
 import { router } from "../../App/Routes";
+import { Helper } from "../../Biz/Helper";
 
 export interface AccountState {
     user: UserDto | null;
@@ -17,11 +18,11 @@ export const signInUser = createAsyncThunk<UserDto, FieldValues>(
     async (data, thunkAPI) => {
         try {
             const userDto = await agent.Account.login(data);
-            localStorage.setItem('user', JSON.stringify(userDto));
+            localStorage.setItem(Helper.UserKey, JSON.stringify(userDto));
             return userDto;
         } catch (error: any) {
-            localStorage.removeItem('user');
-            return thunkAPI.rejectWithValue({ error: error.data });
+            localStorage.removeItem(Helper.UserKey);
+            return thunkAPI.rejectWithValue({ error: error.status });
         }
     }
 );
@@ -29,19 +30,19 @@ export const signInUser = createAsyncThunk<UserDto, FieldValues>(
 export const fetchCurrentUser = createAsyncThunk<UserDto>(
     'account/fetchCurrentUser',
     async (_, thunkAPI) => {
-        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)));
+        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem(Helper.UserKey)!)));
         try {
             const userDto = await agent.Account.currentUser();
-            localStorage.setItem('user', JSON.stringify(userDto));
+            localStorage.setItem(Helper.UserKey, JSON.stringify(userDto));
             return userDto;
         } catch (error: any) {
-            localStorage.removeItem('user');
+            signOut();
             return thunkAPI.rejectWithValue({ error: error.data })
         }
     },
     {
         condition: () => {
-            if (!localStorage.getItem('user')) return false;
+            if (!localStorage.getItem(Helper.UserKey)) return false;
         }
     }
 );
@@ -55,7 +56,7 @@ export const accountSlice = createSlice({
         },
         signOut: (state) => {
             state.user = null;
-            localStorage.removeItem('user');
+            localStorage.removeItem(Helper.UserKey);
             router.navigate('/login');
         },
     },

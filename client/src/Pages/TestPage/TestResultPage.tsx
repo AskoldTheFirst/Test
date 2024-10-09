@@ -4,15 +4,22 @@ import { TestResultDto } from "../../Biz/DTOs/TestResultDto";
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../App/configureStore";
+import { useNavigate } from "react-router-dom";
 
 export default function TestResultPage() {
   const [result, setResult] = useState<TestResultDto>();
   const { test } = useSelector((state: RootState) => state.test);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (test !== null)
-      agent.Test.result(test?.testId).then((result) => setResult(result));
-    // TODO: we need to nullify [TestState] here. Should we create another Thunk?
+    {
+      agent.Test.result(test.testId).then((result) => setResult(result));
+    }
+    else
+    {
+      navigate('/home');
+    }
   }, []);
 
   if (test === null) return <></>;

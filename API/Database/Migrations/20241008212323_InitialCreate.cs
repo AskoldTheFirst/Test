@@ -32,6 +32,8 @@ namespace API.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contacts = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -50,6 +52,22 @@ namespace API.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -259,8 +277,8 @@ namespace API.Database.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "322a3fb4-8078-4f6e-943d-8e91a7545a73", null, "Admin", "ADMIN" },
-                    { "9467df12-0699-4fca-a18e-39af0124bbb4", null, "Member", "MEMBER" }
+                    { "18ab4d58-0be0-40c7-b9ba-f3f54cc43426", null, "Admin", "ADMIN" },
+                    { "aef4a9cb-93dc-4965-b02f-3dca13faee9e", null, "Member", "MEMBER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -301,6 +319,11 @@ namespace API.Database.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_Username",
+                table: "Messages",
+                column: "Username");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TechnologyId",
@@ -356,6 +379,9 @@ namespace API.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "TestQuestions");

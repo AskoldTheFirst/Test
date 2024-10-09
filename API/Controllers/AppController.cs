@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using API.Database;
 using API.DTOs;
 using Microsoft.EntityFrameworkCore;
-using API.UoW;
+using API.UnitOfWork;
 using LogClient;
 using LogClient.Types;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,7 @@ namespace API.Controllers
     {
         LogClient.ILogger _logger;
 
-        public AppController(IUnitOfWork uow, LogClient.ILogger logger) : base(uow)
+        public AppController(IUnitOfWork uow, LogClient.ILogger logger, ITracer tracer) : base(uow, tracer)
         {
             _logger = logger;
         }
@@ -60,6 +60,12 @@ namespace API.Controllers
         public async Task<ActionResult<string>> GetLoggerAsync()
         {
             return await _logger.GenerateJavaScriptLoggerObjectAsync(Product.Tester);
+        }
+
+        [HttpGet("tracer")]
+        public async Task<ActionResult<string>> GetTracerAsync()
+        {
+            return await _tracer.GenerateJavaScriptTracerObjectAsync(Product.Tester);
         }
 
         [Authorize]

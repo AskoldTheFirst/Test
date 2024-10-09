@@ -1,7 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace API.UoW
+namespace API.UnitOfWork
 {
     public interface IRepository<T> where T : class
     {

@@ -64,7 +64,6 @@ export default function AboutPage() {
           <FormControl sx={{ textAlign: 'left', marginTop: 2 }}>
             <FormLabel htmlFor="message">Message:</FormLabel>
             <TextField
-              autoFocus
               fullWidth
               sx={{ ariaLabel: 'message', width: '440px' }}
               error={messageError.length > 0}

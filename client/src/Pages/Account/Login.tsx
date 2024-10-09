@@ -19,8 +19,8 @@ export default function Login() {
   async function submitForm(data: FieldValues) {
     await dispatch(signInUser(data))
       .then((data: any) => {
-        if (data.payload?.error) {
-          if (data.payload?.error.status === 401) {
+        if (data.payload.error) {
+          if (data.payload.error === 401) {
             setValidationErrors(["login or password is not correct!"]);
           }
           else {
@@ -28,7 +28,6 @@ export default function Login() {
           }
         }
         else if (data.payload.email) {
-          // TODO - How to remove this error-underlying?
           window.Logger.log('signIn', data.payload.email);
           setValidationErrors([]);
           navigate('/home');

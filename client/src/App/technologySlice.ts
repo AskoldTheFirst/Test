@@ -14,12 +14,11 @@ export const getTechnologiesAsync = createAsyncThunk<TechnologyDto[]>(
     'technology/getTechnologiesAsync',
     async (_, thunkAPI) => {
         try {
-            console.log("NNN2");
             return await agent.App.technologies();
         }
         catch (error: any) {
-            console.log("VVV2");
-            return thunkAPI.rejectWithValue({error: error.data});
+            console.log(error.data);
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 );
@@ -34,12 +33,10 @@ export const technologySlice = createSlice({
     },
     extraReducers: (builder => {
         builder.addCase(getTechnologiesAsync.pending, () => {
-            console.log('tech - get -pending');
         });
         builder.addCase(getTechnologiesAsync.fulfilled, (state, action) => {
             console.log(action.payload);
             state.technologies = action.payload;
-            console.log('fulfilled');
         });
         builder.addCase(getTechnologiesAsync.rejected, (_, action) => {
             console.log('rejected' + action.payload);
@@ -47,4 +44,4 @@ export const technologySlice = createSlice({
     })
 });
 
-export const {setTechnology} = technologySlice.actions;
+export const { setTechnology } = technologySlice.actions;

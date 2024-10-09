@@ -12,7 +12,7 @@ using API.DTOs;
 using API.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using LogClient;
-using API.UoW;
+using API.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using API.Biz.Interfaces;
 using API.Biz.Service;
@@ -21,8 +21,6 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly ITracer _tracer;
-
         private readonly UserManager<User> _userManager;
 
         private readonly TokenService _tokenService;
@@ -31,9 +29,8 @@ namespace API.Controllers
             ITracer tracer,
             UserManager<User> userManager,
             TokenService tokenService,
-            IUnitOfWork uow) : base(uow)
+            IUnitOfWork uow) : base(uow, tracer)
         {
-            _tracer = tracer;
             _userManager = userManager;
             _tokenService = tokenService;
         }
