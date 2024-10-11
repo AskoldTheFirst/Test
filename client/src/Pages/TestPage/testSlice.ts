@@ -5,6 +5,7 @@ import { InitTestResultDto } from "../../Biz/DTOs/InitTestResultDto";
 import { router } from "../../App/Routes";
 import { QuestionDto } from "../../Biz/DTOs/QuestionDto";
 import { NextQuestionStateDto } from "../../Biz/DTOs/NextQuestionStateDto";
+import { Helper } from "../../Biz/Helper";
 
 export interface TestState {
     test: CurrentTest | null;
@@ -72,18 +73,18 @@ export const testSlice = createSlice({
     extraReducers: (builder => {
         builder.addCase(initiateTest.fulfilled, (state, action) => {
             const newState = {
-                questionNumber: 1,
+                questionNumber: 0,
                 question: null,
                 testId: action.payload.testId,
                 totalAmount: action.payload.totalAmount,
                 secondsLeft: action.payload.secondsLeft,
             } as CurrentTest;
             state.test = newState;
-            localStorage.setItem('testId', newState.testId.toString());
+            localStorage.setItem(Helper.TestKey, newState.testId.toString());
             router.navigate('/test');
         });
         builder.addCase(initiateTest.rejected, (_state, action) => {
-            localStorage.removeItem('testId');
+            localStorage.removeItem(Helper.TestKey);
             console.log("initiateTest.rejected" + action.payload);
         });
 
@@ -112,10 +113,10 @@ export const testSlice = createSlice({
                 secondsLeft: action.payload.secondsLeft,
             } as CurrentTest;
             state.test = newState;
-            localStorage.setItem('testId', newState.testId.toString());
+            localStorage.setItem(Helper.TestKey, newState.testId.toString());
         });
         builder.addCase(nextQuestionState.rejected, (_state, action) => {
-            localStorage.removeItem('testId');
+            localStorage.removeItem(Helper.TestKey);
             console.log("nextQuestionState.rejected" + action.payload);
         });
     })

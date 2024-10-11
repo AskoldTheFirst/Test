@@ -17,6 +17,10 @@ export class Helper {
     }
 
     static get UserKey() : string {
-        return 'user';
+        return 'quiz-user';
+    }
+
+    static get TestKey() : string {
+        return 'test-id';
     }
 }

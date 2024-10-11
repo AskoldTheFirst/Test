@@ -151,7 +151,6 @@ namespace API.Controllers
             }
 
             await EndPerformanceTraceAsync("InitiateNewTest", userName);
-
             return nextQuestion;
         }
 

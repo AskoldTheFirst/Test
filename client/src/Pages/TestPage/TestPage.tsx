@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../App/configureStore";
 import { incrementQuestionNumber, nextQuestion, nextQuestionState } from "./testSlice";
 import QuestionHeaderCmp from "./QuestionHeaderCmp";
 import { LoadingButton } from "@mui/lab";
+import { Helper } from "../../Biz/Helper";
 
 export default function TestPage() {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,13 +21,16 @@ export default function TestPage() {
     useEffect(() => {
         setLoading(true);
         if (test === null) {
-            const testId = localStorage.getItem('testId');
+            const testId = localStorage.getItem(Helper.TestKey);
             dispatch(nextQuestionState(testId === null ? null : parseInt(testId)))
                 .then(() => setLoading(false));
         }
         else {
             dispatch(nextQuestion(test.testId))
-                .then(() => setLoading(false));
+                .then(() => {
+                    dispatch(incrementQuestionNumber());
+                    setLoading(false);
+            });
         }
     }, [flag]);
 
@@ -41,7 +45,6 @@ export default function TestPage() {
                         await completeTestAsync(test.testId);
                     }
                     else {
-                        dispatch(incrementQuestionNumber());
                         setFlag(!flag);
                     }
                     setAnswer(0);

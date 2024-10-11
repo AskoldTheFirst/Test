@@ -2,7 +2,7 @@
 function WebLogger() {
 
     // private:
-    const _host_name = 'http://logsystem-001-site1.ltempurl.com';
+    const _host_name = 'http://logsystem-001-site1.atempurl.com';
     const _prod_id = 1;
     const _layer = 1; // front-end
 
@@ -31,12 +31,11 @@ function WebLogger() {
     }
 }
 window.Logger = new WebLogger();
-console.log('Logger' + window.Logger);
 
 function WebTracer() {
 
     // private:
-    const _host_name = 'http://logsystem-001-site1.ltempurl.com';
+    const _host_name = 'http://logsystem-001-site1.atempurl.com';
     const _prod_id = 1;
 
     // public:
@@ -77,4 +76,3 @@ function WebTracer() {
     }
 }
 window.Tracer = new WebTracer();
-console.log('Tracer' + window.Tracer);

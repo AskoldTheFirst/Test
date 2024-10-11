@@ -104,7 +104,6 @@ namespace API.Controllers
             string user = User.Identity.Name;
             IUserProfile service = new UserProfileService(_uow);
             await service.SaveUserProfileAsync(profile, user);
-            
             return Ok();
         }
     }

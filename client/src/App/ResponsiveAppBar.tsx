@@ -62,7 +62,8 @@ function ResponsiveAppBar() {
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
+                            mr: 1,
+                            ml: 1,
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
@@ -71,9 +72,9 @@ function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        TEST
+                        QUIZ
                     </Typography>
-                    <Box width={40}></Box>
+                    <Box width={20}></Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -115,7 +116,7 @@ function ResponsiveAppBar() {
                         variant="h5"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -127,7 +128,7 @@ function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        TEST
+                        QUIZ
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {barLinks.map(({ title, path }) => (
