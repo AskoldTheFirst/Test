@@ -1,23 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using API.Database.Entities;
-using API.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using API.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using API.Services;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using LogClient;
-using API.UnitOfWork;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace API.Controllers
 {
@@ -49,7 +34,7 @@ namespace API.Controllers
             string user = User.Identity.Name;
             string remoteIp = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             
-            await BeginPerformanceTraceAsync("InitiateNewTest", user, true);
+            Task beginPerformance = BeginPerformanceTraceAsync("InitiateNewTest", user, true);
 
             int[] randomQuestionIds = GenerateRandomQuestionsForTest(
                 techName, out int questionAmount, out int technologyId);
@@ -89,6 +74,7 @@ namespace API.Controllers
             result.TechnologyName = currentTechnology.Name;
 
             await EndPerformanceTraceAsync("InitiateNewTest", user);
+            await beginPerformance;
 
             return result;
         }

@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using API.DTOs;
-using API.Types;
 using Microsoft.EntityFrameworkCore;
-using API.Services;
-using API.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
-using LogClient;
 
 namespace API.Controllers
 {

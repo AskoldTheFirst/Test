@@ -1,16 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using API.Database;
-using API.DTOs;
 using Microsoft.EntityFrameworkCore;
-using API.UnitOfWork;
-using LogClient;
 using LogClient.Types;
 using Microsoft.AspNetCore.Authorization;
 

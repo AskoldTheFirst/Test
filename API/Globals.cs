@@ -1,0 +1,11 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Data;
+global using API.Database.Entities;
+global using API.DTOs;
+global using LogClient;
+global using API.UnitOfWork;
+global using API.Services;
+global using API.Types;

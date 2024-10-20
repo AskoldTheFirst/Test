@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ export default function TestCommencePage() {
     useEffect(() => {
 
         if (testId === undefined) {
+            window.alert('test');
             navigate('/');
             return;
         }
@@ -43,19 +44,16 @@ export default function TestCommencePage() {
         dispatch(initiateTest(encodeURIComponent(currentTechnology.name))).then(() => setLoading(false));
     }
 
+    if (currentTechnology === undefined)
+        return <></>;
+
     return (
-        <center style={{ marginTop: '150px' }}>
-            {
-                currentTechnology !== undefined ?
-                    <>
-                        <Typography fontSize={22} variant="h6">You are about to start {currentTechnology.name} test.</Typography>
-                        <Typography sx={{marginTop: '18px'}} fontSize={16} variant="h6">You will have to answer {currentTechnology.amount} questions for {currentTechnology.duration} minutes.</Typography>
-                        <LoadingButton loading={loading} sx={{ marginTop: 4 }} variant="contained" disabled={currentTechnology == undefined} onClick={StartHandler}>Start</LoadingButton>
-                    </>
-                    :
-                    <>
-                    </>
-            }
-        </center>
+        <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ width: '460px', marginTop: 8, textAlign: 'center' }}>
+                <Typography fontSize={22} variant="h6">You are about to start {currentTechnology.name} test.</Typography>
+                <Typography sx={{ marginTop: '18px' }} fontSize={16} variant="h6">You will have to answer {currentTechnology.amount} questions for {currentTechnology.duration} minutes.</Typography>
+                <LoadingButton loading={loading} sx={{ marginTop: 4 }} variant="contained" disabled={currentTechnology == undefined} onClick={StartHandler}>Start</LoadingButton>
+            </Box>
+        </Container>
     );
 }

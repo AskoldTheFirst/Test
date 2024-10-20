@@ -1,3 +1,4 @@
+
 namespace API.Types
 {
     public enum TimePeriod

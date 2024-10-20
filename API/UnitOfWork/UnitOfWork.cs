@@ -1,5 +1,3 @@
-using System.Data;
-using API.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

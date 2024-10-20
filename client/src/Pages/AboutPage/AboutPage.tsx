@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, FormControl, FormLabel, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import agent from "../../Biz/agent";
 
@@ -36,12 +36,13 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* TODO - How to center without <center>? */}
-      <center>
-        <Box sx={{ width: '460px', marginTop: 8, textAlign: 'center', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-          <Typography variant="h6">
-            This is a simple application for testing. Please check it out and if you
-            have any questions or ideas, please send them here:
+      <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ width: '460px', marginTop: 8, textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ fontSize: '11pt' }}>
+            This is just an example of a simplified way to test online.
+          </Typography>
+          <Typography variant="h6" sx={{ fontSize: '11pt' }}>
+            If you want to have it in some more sophisticated, customized, or domain-oriented way, please contact me and share your requirements, ideas, thoughts, etc.
           </Typography>
           <FormControl sx={{ textAlign: 'left', marginTop: 4 }}>
             <FormLabel htmlFor="email">Email:</FormLabel>
@@ -79,10 +80,21 @@ export default function AboutPage() {
               }}
             />
           </FormControl>
-          {/* TODO - How to left? */}
-          <Button onClick={sendHandler} sx={{ border: 1, marginTop: 2, alignContent: 'start', alignItems: 'start', alignSelf: 'start', textAlign: 'left' }}>Send</Button>
+
+          <div style={{ marginTop: '24px', marginRight: '10px', textAlign: 'end' }}>
+            <Button onClick={sendHandler} sx={{ border: 1 }}>Send</Button>
+          </div>
+
+          <div style={{ marginTop: '60px', marginRight: '10px', textAlign: 'end' }}>
+            <Typography sx={{ fontSize: '10px' }}>
+              or email to:
+            </Typography>
+            <a href="mailto: vkramar.biz@gmail.com" style={{ fontSize: '10px' }}>
+              vkramar.biz@gmail.com
+            </a>
+          </div>
         </Box>
-      </center>
+      </Container>
     </>
   );
 }

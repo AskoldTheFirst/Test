@@ -1,6 +1,3 @@
-using System.Data;
-using Microsoft.EntityFrameworkCore;
-using API.Database.Entities;
 
 namespace API.UnitOfWork
 {

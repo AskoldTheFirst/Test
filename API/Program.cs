@@ -1,16 +1,12 @@
 using API;
 using System.Text;
 using API.Database;
-using API.Services;
-using API.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using LogClient;
 using LogClient.Types;
-using API.UnitOfWork;
 using API.Biz.Interfaces;
 using API.Biz.Service;
 

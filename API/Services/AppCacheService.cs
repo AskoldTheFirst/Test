@@ -1,17 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Database;
-using API.Database.Entities;
-using API.DTOs;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace API.Services
 {
-    public class AppCacheService
+    public interface IMemoryCacheService
+    {
+        int[] GetQuestionIds(string technologyName);
+
+        Technology[] GetTechnologies();
+
+        Technology GetTechnologyByName(string name);
+
+        Technology GetTechnologyById(int id);
+    }
+
+    public class AppCacheService : IMemoryCacheService
     {
         TestDbContext _ctx;
         IMemoryCache _cache;

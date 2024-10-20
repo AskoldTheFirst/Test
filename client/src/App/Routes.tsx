@@ -11,19 +11,19 @@ import Login from "../Pages/Account/Login";
 import Register from "../Pages/Account/Register";
 import NotFound from "../Pages/Errors/NotFound";
 import ServerError from "../Pages/Errors/ServerError";
-//import RequireAuth from "./RequireAuth";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
-            // {element: <RequireAuth />, children: [
-            //     {path: 'commenceTest/:testId', element: <TestCommencePage />},
-            //     {path: 'test', element: <TestPage />},
-            //     {path: 'test-result', element: <TestResultPage />},
-            //     {path: 'profile', element: <ProfilePage />},
-            // ]},
+            {element: <RequireAuth />, children: [
+                {path: 'test', element: <TestPage />},
+                {path: 'test-result', element: <TestResultPage />},
+                {path: 'profile', element: <ProfilePage />},
+                {path: 'statistics', element: <StatisticsPage />},
+            ]},
             {path: '', element: <HomePage />},
             {path: 'home', element: <HomePage />},
             {path: 'statistics', element: <StatisticsPage />},

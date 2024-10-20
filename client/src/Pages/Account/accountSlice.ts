@@ -37,7 +37,7 @@ export const fetchCurrentUser = createAsyncThunk<UserDto>(
             return userDto;
         } catch (error: any) {
             signOut();
-            return thunkAPI.rejectWithValue({ error: error.data })
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     },
     {

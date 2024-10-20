@@ -1,4 +1,3 @@
-using API.Database.Entities;
 
 namespace API.Database
 {
@@ -54,7 +53,19 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "3 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
+                        Text = "What is the most correct way to clone an object in JavaScript deeply?",
+                        Answer1 = "let clone = {... obj};",
+                        Answer2 = "let clone = Object.assign({}, obj);",
+                        Answer3 = "let clone = JSON.parse(JSON.stringify(obj));",
+                        Answer4 = "let clone = structuredClone(obj);",
+                        CorrectAnswerNumber = 4,
+                        TechnologyId = techArray[0].Id,
+                        Technology = techArray[0]
+                    },
+
+                    new Question
+                    {
+                        Text = "Sealing an object this way: \"Object.seal(obj);\" will lead to:",
                         Answer1 = "aaa",
                         Answer2 = "bbb",
                         Answer3 = "ccc",
@@ -66,23 +77,11 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "4 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
-                        TechnologyId = techArray[0].Id,
-                        Technology = techArray[0]
-                    },
-
-                    new Question
-                    {
-                        Text = "5 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
+                        Text = "When this will be empty in this method: function foo() {console.log(this);}",
+                        Answer1 = "foo();",
+                        Answer2 = "new foo();",
+                        Answer3 = "foo.call(0);",
+                        Answer4 = "foo.apply();",
                         CorrectAnswerNumber = 2,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
