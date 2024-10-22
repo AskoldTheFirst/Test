@@ -65,23 +65,23 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "Sealing an object this way: \"Object.seal(obj);\" will lead to:",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "Sealing an object this way: \"Object.seal(obj);\" will allow:",
+                        Answer1 = "nothing",
+                        Answer2 = "adding new properties",
+                        Answer3 = "changing of existing properties",
+                        Answer4 = "removing properties from that object",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "When this will be empty in this method: function foo() {console.log(this);}",
+                        Text = "When will \'this\' be empty for such a method?: function foo() {console.log(this);}",
                         Answer1 = "foo();",
                         Answer2 = "new foo();",
                         Answer3 = "foo.call(0);",
-                        Answer4 = "foo.apply();",
+                        Answer4 = "foo.apply(\'just a string\');",
                         CorrectAnswerNumber = 2,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
@@ -89,11 +89,11 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "6 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
+                        Text = "Which of the following comparisons will retrieve the truth?",
+                        Answer1 = "(2 == \'2\' && 2 === \'2\')",
+                        Answer2 = "(null == undefined && 0 == -0)",
+                        Answer3 = "(NaN == NaN && false == 0)",
+                        Answer4 = "([1, 2] === \'1,2\' || NaN === NaN)",
                         CorrectAnswerNumber = 2,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
@@ -101,79 +101,163 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "7 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "Which is not a Promise state?",
+                        Answer1 = "Suspended",
+                        Answer2 = "Fulfilled",
+                        Answer3 = "Settled",
+                        Answer4 = "Pending",
+                        CorrectAnswerNumber = 1,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "8 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "What would be the result of: 4 + 1 + \'2\'?",
+                        Answer1 = "NaN",
+                        Answer2 = "7",
+                        Answer3 = "\'52\'",
+                        Answer4 = "52",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "9 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "Which company developed JavaScript?",
+                        Answer1 = "IBM",
+                        Answer2 = "Intel",
+                        Answer3 = "Netscape",
+                        Answer4 = "Mosaic",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "10 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "What kind of loop is not supported in JavaScript?",
+                        Answer1 = "for/of",
+                        Answer2 = "do/while",
+                        Answer3 = "for/each",
+                        Answer4 = "for/in",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "11 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
-                        CorrectAnswerNumber = 2,
+                        Text = "What will be the result of the following: (5 > 4 > 3)",
+                        Answer1 = "a run-time error",
+                        Answer2 = "true",
+                        Answer3 = "false",
+                        Answer4 = "NaN",
+                        CorrectAnswerNumber = 3,
                         TechnologyId = techArray[0].Id,
                         Technology = techArray[0]
                     },
 
                     new Question
                     {
-                        Text = "12 JS Hundreds of the nation's top athletes are headed to Paris as part of Team USA in the 2024 Olympics.",
-                        Answer1 = "aaa",
-                        Answer2 = "bbb",
-                        Answer3 = "ccc",
-                        Answer4 = "ddd",
+                        Text = "Which type/way allows you to set the stack size for a new thread you are creating?",
+                        Answer1 = "Task",
+                        Answer2 = "ThreadPool",
+                        Answer3 = "Delegate.BeginInvoke",
+                        Answer4 = "Thread",
+                        CorrectAnswerNumber = 4,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "Which of the following is used for performing an asynchronous method execution?",
+                        Answer1 = "class Thread",
+                        Answer2 = "IAsyncResult",
+                        Answer3 = "Delegate",
+                        Answer4 = "class ThreadPool",
                         CorrectAnswerNumber = 2,
-                        TechnologyId = techArray[0].Id,
-                        Technology = techArray[0]
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
                     },
 
                     new Question
                     {
-                        Text = "1 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Text = "What is the result of this expression? (4 << 2 + 1)",
+                        Answer1 = "InvalidOperationException",
+                        Answer2 = "2",
+                        Answer3 = "17",
+                        Answer4 = "32",
+                        CorrectAnswerNumber = 4,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "What is the result of this expression? (15 ^ 3 | 1)",
+                        Answer1 = "15",
+                        Answer2 = "14",
+                        Answer3 = "13",
+                        Answer4 = "12",
+                        CorrectAnswerNumber = 3,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "How to change the stack size in .Net applications?",
+                        Answer1 = "that's impossible",
+                        Answer2 = "by editing PE manually",
+                        Answer3 = "applications retrieve its stack size from the current OS",
+                        Answer4 = "using the editbin.exe",
+                        CorrectAnswerNumber = 4,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "In which cases should we use the 'var' keyword for declaring variables in C#?",
+                        Answer1 = "whenever it is possible",
+                        Answer2 = "when the exact variable type is obvious",
+                        Answer3 = "when the specific type of the variable is tedious to type on the keyboard",
+                        Answer4 = "only when we have no other option",
+                        CorrectAnswerNumber = 4,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "What is true regarding calling this method: Task::ConfigureAwait(false);",
+                        Answer1 = "It runs the rest of the code on the same thread it was run before.",
+                        Answer2 = "It is recommended everywhere where coming back to the same SynchronizationContext is not needed.",
+                        Answer3 = "It runs the rest of the code on the same SynchronizationContext it was run before.",
+                        Answer4 = "It can lead to a run-time deadlock.",
+                        CorrectAnswerNumber = 2,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "What is true regarding the \'volitile\' keyword in C#?",
+                        Answer1 = "It prevents any kind of optimization or caching with such variables.",
+                        Answer2 = "It creates a critical section around reading/writing of such variables.",
+                        Answer3 = "It increases the performance of using such variables in multithreading environments.",
+                        Answer4 = "The \'volitile\' keyword is applicable to any primitive types like \'float\', \'double\' or \'long\'.",
+                        CorrectAnswerNumber = 1,
+                        TechnologyId = techArray[1].Id,
+                        Technology = techArray[1]
+                    },
+
+                    new Question
+                    {
+                        Text = "float or double",
                         Answer1 = "qqq",
                         Answer2 = "rrf",
                         Answer3 = "ttt",
@@ -185,103 +269,7 @@ namespace API.Database
 
                     new Question
                     {
-                        Text = "2 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "3 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "4 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "5 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "6 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "7 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "8 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "9 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
-                        Answer1 = "qqq",
-                        Answer2 = "rrf",
-                        Answer3 = "ttt",
-                        Answer4 = "jjj",
-                        CorrectAnswerNumber = 3,
-                        TechnologyId = techArray[1].Id,
-                        Technology = techArray[1]
-                    },
-
-                    new Question
-                    {
-                        Text = "10 C#President Biden is meeting with Israeli Prime Minister Benjamin Netanyahu at the White House Thursday.",
+                        Text = "Which way we can lock asynchroniously",
                         Answer1 = "qqq",
                         Answer2 = "rrf",
                         Answer3 = "ttt",

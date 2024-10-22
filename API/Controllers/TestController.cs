@@ -147,6 +147,8 @@ namespace API.Controllers
             string userName = User.Identity.Name;
             Test currentTest = null;
 
+            _ =_tracer.TraceAsync("NextQuestionState", userName);
+
             if (testId.HasValue)
             {
                 currentTest = await (from t in _uow.TestRepo.All

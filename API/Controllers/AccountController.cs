@@ -27,7 +27,10 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            {
+                await _tracer.TraceAsync("Login unauthorized", loginDto.Username);
                 return Unauthorized();
+            }
 
             await _tracer.TraceAsync("Login", loginDto.Username);
 
