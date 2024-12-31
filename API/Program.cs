@@ -124,8 +124,6 @@ app.UseCors(opt =>
         .WithOrigins([
             "http://localhost:3004",
             "http://127.0.0.1:3004",
-            "http://askold-001-site1.atempurl.com",
-            "http://askold-001-site2.atempurl.com",
             "http://quiz-it.online"
         ]);
 });
